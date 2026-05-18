@@ -1,0 +1,35 @@
+{
+  "suppliers": [
+    {
+      "name": "Sysco",
+      "domains": ["sysco.com"],
+      "category": "Broadline Distributor"
+    },
+    {
+      "name": "US Foods",
+      "domains": ["usfoods.com", "usfoodservice.com"],
+      "category": "Broadline Distributor"
+    },
+    {
+      "name": "Gordon Food Service",
+      "domains": ["gfs.com", "gordonfs.com"],
+      "category": "Broadline Distributor"
+    }
+  ],
+  "keyword_subjects": [
+    "invoice",
+    "statement",
+    "delivery",
+    "shipment",
+    "price change",
+    "price increase",
+    "order confirmation",
+    "purchase order",
+    "credit memo",
+    "past due",
+    "overdue",
+    "remittance"
+  ],
+  "fetch_days": 30,
+  "notes": "Add your actual suppliers and their email domains above. keyword_subjects casts a wide net for any supplier not yet listed."
+}

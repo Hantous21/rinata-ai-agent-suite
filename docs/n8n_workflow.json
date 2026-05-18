@@ -1,0 +1,175 @@
+{
+  "name": "Rinata Review Approval",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [ { "field": "weeks", "triggerAtDay": [ 1 ], "triggerAtHour": 8 } ] }
+      },
+      "id": "trigger",
+      "name": "Weekly Monday 8am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [ 240, 400 ]
+    },
+    {
+      "parameters": {
+        "command": "cd /d \"C:\\Users\\shant\\projects\\Rinata\" && python run_all.py"
+      },
+      "id": "runpipeline",
+      "name": "Run Pipeline",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 460, 400 ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.exitCode }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "equals" }
+            }
+          ]
+        }
+      },
+      "id": "pipelineok",
+      "name": "Pipeline OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [ 680, 400 ]
+    },
+    {
+      "parameters": {
+        "sendTo": "hantous93@gmail.com",
+        "subject": "Rinata pipeline FAILED",
+        "message": "=The weekly Rinata review pipeline failed (exit {{ $json.exitCode }}).\\n\\nstderr:\\n{{ $json.stderr }}",
+        "options": {}
+      },
+      "id": "failmail",
+      "name": "Alert: pipeline failed",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [ 900, 560 ],
+      "webhookId": "",
+      "credentials": { "gmailOAuth2": { "id": "REPLACE_WITH_GMAIL_CRED_ID", "name": "Gmail account" } }
+    },
+    {
+      "parameters": {
+        "command": "cd /d \"C:\\Users\\shant\\projects\\Rinata\" && python responder/approval_digest.py"
+      },
+      "id": "digest",
+      "name": "Get Pending Digest",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 900, 320 ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.stdout || '[]';\nlet items;\ntry { items = JSON.parse(raw); } catch (e) { items = []; }\nreturn items.map(i => ({ json: i }));"
+      },
+      "id": "parsejson",
+      "name": "Parse Pending Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [ 1120, 320 ]
+    },
+    {
+      "parameters": { "options": {} },
+      "id": "loop",
+      "name": "Loop Over Reviews",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [ 1340, 320 ]
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "hantous93@gmail.com",
+        "subject": "=[{{ $json.queue === 'urgent' ? 'URGENT' : 'Review' }}] {{ $json.rating }}★ — approve reply for {{ $json.reviewer_id }}",
+        "message": "=ORIGINAL REVIEW ({{ $json.rating }}★, {{ $json.primary_category }}):\\n{{ $json.review_text }}\\n\\n---\\nDRAFT REPLY:\\n{{ $json.draft_response }}\\n\\nQC flags: {{ $json.qc_flag || 'none' }}\\nUrgency: {{ $json.urgency_reason || 'standard' }}\\n\\nApprove to add to approved_responses.csv. Reject to discard.",
+        "approvalOptions": { "values": { "approvalType": "double", "approveLabel": "Approve", "disapproveLabel": "Reject" } },
+        "options": {}
+      },
+      "id": "approve",
+      "name": "Send & Wait for Approval",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [ 1560, 320 ],
+      "webhookId": "rinata-approval",
+      "credentials": { "gmailOAuth2": { "id": "REPLACE_WITH_GMAIL_CRED_ID", "name": "Gmail account" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      },
+      "id": "approved",
+      "name": "Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [ 1780, 320 ]
+    },
+    {
+      "parameters": {
+        "command": "=cd /d \"C:\\Users\\shant\\projects\\Rinata\" && python responder/record_decision.py --reviewer-id {{ $('Loop Over Reviews').item.json.reviewer_id }} --decision approved"
+      },
+      "id": "recapprove",
+      "name": "Record Approved",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 2000, 220 ]
+    },
+    {
+      "parameters": {
+        "command": "=cd /d \"C:\\Users\\shant\\projects\\Rinata\" && python responder/record_decision.py --reviewer-id {{ $('Loop Over Reviews').item.json.reviewer_id }} --decision rejected"
+      },
+      "id": "recreject",
+      "name": "Record Rejected",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [ 2000, 420 ]
+    }
+  ],
+  "connections": {
+    "Weekly Monday 8am": { "main": [ [ { "node": "Run Pipeline", "type": "main", "index": 0 } ] ] },
+    "Run Pipeline": { "main": [ [ { "node": "Pipeline OK?", "type": "main", "index": 0 } ] ] },
+    "Pipeline OK?": {
+      "main": [
+        [ { "node": "Get Pending Digest", "type": "main", "index": 0 } ],
+        [ { "node": "Alert: pipeline failed", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Get Pending Digest": { "main": [ [ { "node": "Parse Pending Items", "type": "main", "index": 0 } ] ] },
+    "Parse Pending Items": { "main": [ [ { "node": "Loop Over Reviews", "type": "main", "index": 0 } ] ] },
+    "Loop Over Reviews": {
+      "main": [
+        [],
+        [ { "node": "Send & Wait for Approval", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Send & Wait for Approval": { "main": [ [ { "node": "Approved?", "type": "main", "index": 0 } ] ] },
+    "Approved?": {
+      "main": [
+        [ { "node": "Record Approved", "type": "main", "index": 0 } ],
+        [ { "node": "Record Rejected", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Record Approved": { "main": [ [ { "node": "Loop Over Reviews", "type": "main", "index": 0 } ] ] },
+    "Record Rejected": { "main": [ [ { "node": "Loop Over Reviews", "type": "main", "index": 0 } ] ] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

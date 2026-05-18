@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata Project — Stage 4 Breakdown</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #2c2c2c; line-height: 1.7; }
+    .cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: white; padding: 80px 60px; }
+    .cover h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+    .cover h2 { font-size: 1.2em; font-weight: 300; opacity: 0.8; margin-bottom: 20px; }
+    .cover .meta { font-size: 0.9em; opacity: 0.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 30px 80px; }
+    h2.section-title { font-size: 1.5em; color: #0f3460; border-left: 5px solid #e94560; padding-left: 14px; margin: 50px 0 18px; }
+    h3 { font-size: 1.1em; color: #1a1a2e; margin: 28px 0 8px; }
+    h4 { font-size: 0.95em; color: #444; margin: 18px 0 6px; font-weight: 600; }
+    p { margin-bottom: 12px; }
+    ul { margin-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 4px; }
+    ol { margin-left: 20px; margin-bottom: 12px; }
+    .card { background: white; border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .card.highlight { border-left: 4px solid #e94560; }
+    .card.concept { border-left: 4px solid #0f3460; }
+    .card.code-card { border-left: 4px solid #2ecc71; }
+    .card.debug { border-left: 4px solid #f39c12; }
+    .card.result { border-left: 4px solid #9b59b6; }
+    code { font-family: 'Consolas', monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.88em; color: #c0392b; }
+    pre { background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 0.88em; line-height: 1.6; margin: 14px 0; }
+    pre .comment { color: #6c7086; }
+    pre .keyword { color: #cba6f7; }
+    pre .string { color: #a6e3a1; }
+    pre .func { color: #89b4fa; }
+    pre .number { color: #fab387; }
+    .step-badge { display: inline-block; background: #e94560; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .debug-badge { display: inline-block; background: #f39c12; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; }
+    .learn-box { background: #eaf4fb; border: 1px solid #aed6f1; border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 0.93em; }
+    .learn-box strong { color: #1a6fa0; }
+    .result-box { background: #f0fff4; border: 1px solid #a9dfbf; border-radius: 6px; padding: 14px 18px; margin: 14px 0; font-size: 0.93em; }
+    .result-box strong { color: #1e8449; }
+    .insight-box { background: #fdf2ff; border: 1px solid #d7aef5; border-radius: 6px; padding: 14px 18px; margin: 14px 0; font-size: 0.93em; }
+    .insight-box strong { color: #7d3c98; }
+    .warning { background: #fff8e1; border-left: 4px solid #f39c12; padding: 12px 16px; border-radius: 4px; margin: 14px 0; font-size: 0.93em; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+    th { background: #0f3460; color: white; padding: 10px 14px; text-align: left; }
+    td { padding: 9px 14px; border-bottom: 1px solid #e5e5e5; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.95em; }
+    .checklist li::before { content: "✅ "; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+    .stat { background: white; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .stat .number { font-size: 2.2em; font-weight: 700; color: #0f3460; }
+    .stat .label { font-size: 0.85em; color: #777; margin-top: 4px; }
+    .divider { border: none; border-top: 1px solid #ddd; margin: 40px 0; }
+    .bar-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 0.9em; }
+    .bar-label { width: 160px; flex-shrink: 0; }
+    .bar { height: 22px; background: #0f3460; border-radius: 3px; display: flex; align-items: center; padding-left: 8px; color: white; font-size: 0.8em; font-weight: 600; min-width: 30px; }
+    .bar.positive { background: #2ecc71; }
+    .bar.negative { background: #e74c3c; }
+    .bar.mixed { background: #f39c12; }
+    .bar.high { background: #e74c3c; }
+    .bar.medium { background: #f39c12; }
+    .bar.low { background: #95a5a6; }
+    .prompt-box { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px 24px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em; line-height: 1.8; margin: 14px 0; }
+    .prompt-box .label { font-weight: 700; color: #0f3460; }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Rinata Feedback Intelligence System</h1>
+  <h2>Stage 4 — AI Categorization: Complete Breakdown</h2>
+  <div class="meta">Project: Rinata Restaurant &nbsp;|&nbsp; Date: May 2026 &nbsp;|&nbsp; Stage: 4 of 6</div>
+</div>
+
+<div class="container">
+
+  <!-- RESULTS -->
+  <h2 class="section-title">What We Accomplished</h2>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="number">388</div><div class="label">Reviews categorized</div></div>
+    <div class="stat"><div class="number">0</div><div class="label">Errors or failures</div></div>
+    <div class="stat"><div class="number">7</div><div class="label">Fields assigned per review</div></div>
+  </div>
+
+  <div class="card result">
+    <span class="step-badge">Output</span>
+    <p>Every text review now has 7 AI-assigned fields saved to <code>output/categorized_reviews.csv</code>. This file is the input for Stages 5 and 6 — the Excel dashboard and management report.</p>
+
+    <h4>Category breakdown:</h4>
+    <div class="bar-row"><span class="bar-label">Food Quality</span><div class="bar" style="width:274px">274</div></div>
+    <div class="bar-row"><span class="bar-label">Atmosphere</span><div class="bar" style="width:61px">61</div></div>
+    <div class="bar-row"><span class="bar-label">Service/Staff</span><div class="bar" style="width:33px">33</div></div>
+    <div class="bar-row"><span class="bar-label">Miscellaneous</span><div class="bar" style="width:10px">10</div></div>
+    <div class="bar-row"><span class="bar-label">Price/Value</span><div class="bar" style="width:7px">7</div></div>
+    <div class="bar-row"><span class="bar-label">Wait Time</span><div class="bar" style="width:3px">3</div></div>
+
+    <h4 style="margin-top:20px;">Sentiment breakdown:</h4>
+    <div class="bar-row"><span class="bar-label">Positive</span><div class="bar positive" style="width:349px">349</div></div>
+    <div class="bar-row"><span class="bar-label">Negative</span><div class="bar negative" style="width:40px">20</div></div>
+    <div class="bar-row"><span class="bar-label">Mixed</span><div class="bar mixed" style="width:38px">19</div></div>
+
+    <h4 style="margin-top:20px;">Urgency breakdown:</h4>
+    <div class="bar-row"><span class="bar-label">Low</span><div class="bar low" style="width:360px">360</div></div>
+    <div class="bar-row"><span class="bar-label">Medium</span><div class="bar medium" style="width:40px">20</div></div>
+    <div class="bar-row"><span class="bar-label">High</span><div class="bar high" style="width:16px">8</div></div>
+
+    <div class="insight-box" style="margin-top:18px;">
+      <strong>Key business insight:</strong> 71% of reviews center on food quality — Rinata's customers care most about what's on the plate. Only 3 reviews flagged wait time as the primary concern, and 8 reviews were flagged high-urgency — those are priority reading for management.
+    </div>
+  </div>
+
+
+  <!-- WHAT IS PROMPT ENGINEERING -->
+  <h2 class="section-title">What Is Prompt Engineering?</h2>
+
+  <div class="card concept">
+    <p>Prompt engineering is the practice of writing instructions for an AI model that reliably produce the output you need. It's less like programming and more like writing a very precise job description — the clearer and more structured your instructions, the more consistent and useful the AI's responses become.</p>
+    <p>A poorly written prompt might produce different formats, inconsistent categories, or irrelevant analysis. A well-engineered prompt produces the same clean JSON structure every time, with labels that actually match the review content.</p>
+
+    <h4>The four elements of a good classification prompt:</h4>
+    <table>
+      <tr><th>Element</th><th>What it does</th><th>Example from our prompt</th></tr>
+      <tr><td>Role framing</td><td>Tells the AI who it is and what it's doing</td><td>"You are a restaurant feedback analyst for Rinata..."</td></tr>
+      <tr><td>Defined options</td><td>Limits the AI to a fixed set of valid values</td><td>7 named categories, 3 sentiment options, 3 urgency levels</td></tr>
+      <tr><td>Definitions</td><td>Explains what each option means so the AI chooses consistently</td><td>"Food Quality — taste, freshness, portion size, menu items, authenticity"</td></tr>
+      <tr><td>Output format</td><td>Specifies exactly what structure to return</td><td>"Return ONLY valid JSON. No explanation before or after."</td></tr>
+    </table>
+
+    <div class="learn-box">
+      <strong>Why "Return ONLY valid JSON" matters:</strong><br>
+      By default, Claude likes to be conversational — it might say "Here's my analysis:" before the JSON, or add "Let me know if you'd like more detail!" after. That breaks <code>json.loads()</code> because the extra text isn't valid JSON. Explicitly instructing the model to return only JSON eliminates this. It's one of the most important lines in any structured-output prompt.
+    </div>
+  </div>
+
+
+  <!-- THE PROMPT -->
+  <h2 class="section-title">The Prompt We Wrote — Line by Line</h2>
+
+  <div class="card">
+    <div class="prompt-box">
+      <p><span class="label">Line 1 — Role:</span><br>
+      "You are a restaurant feedback analyst for Rinata, an Italian restaurant in Minneapolis."</p>
+      <p style="margin-top:12px;"><span class="label">Lines 2-3 — Task definition:</span><br>
+      "Your job is to read a single customer review and return a structured JSON object..."</p>
+      <p style="margin-top:12px;"><span class="label">Lines 4-12 — Category definitions:</span><br>
+      Each category is named and described with bullet-point examples of what belongs there. This prevents ambiguity — without definitions, "the server was great" might be labeled Food Quality or Atmosphere depending on the AI's interpretation.</p>
+      <p style="margin-top:12px;"><span class="label">Lines 13-22 — Sentiment and urgency scales:</span><br>
+      Each value is defined, not just named. "Urgency: high = serious complaint, health/safety issue, repeated failure, very angry customer." Without this definition, "high" would mean different things to the model in different contexts.</p>
+      <p style="margin-top:12px;"><span class="label">Last section — Output contract:</span><br>
+      "Return ONLY valid JSON." followed by the exact JSON template the model must fill in. The template shows field names, types, and order — eliminating any guessing about format.</p>
+    </div>
+  </div>
+
+
+  <!-- THE CODE -->
+  <h2 class="section-title">How the Code Works</h2>
+
+  <div class="card code-card">
+    <span class="step-badge">Core function</span>
+    <h3>categorize_review()</h3>
+    <pre><span class="keyword">def</span> <span class="func">categorize_review</span>(text: str) -> dict:
+    message = client.messages.<span class="func">create</span>(
+        model=<span class="string">"claude-haiku-4-5-20251001"</span>,
+        max_tokens=<span class="number">300</span>,
+        system=system_prompt,       <span class="comment"># the prompt template</span>
+        messages=[{
+            <span class="string">"role"</span>: <span class="string">"user"</span>,
+            <span class="string">"content"</span>: <span class="string">f"Review:\n{text}"</span>
+        }]
+    )
+
+    raw = message.content[<span class="number">0</span>].text.<span class="func">strip</span>()
+
+    <span class="comment"># Strip markdown fences if Claude wraps in ```json ... ```</span>
+    <span class="keyword">if</span> raw.<span class="func">startswith</span>(<span class="string">"```"</span>):
+        raw = raw.<span class="func">split</span>(<span class="string">"```"</span>)[<span class="number">1</span>]
+        <span class="keyword">if</span> raw.<span class="func">startswith</span>(<span class="string">"json"</span>):
+            raw = raw[<span class="number">4</span>:]
+        raw = raw.<span class="func">strip</span>()
+
+    <span class="keyword">return</span> json.<span class="func">loads</span>(raw)</pre>
+
+    <h4>Breaking it down:</h4>
+    <ul>
+      <li><strong><code>system=system_prompt</code></strong> — The system prompt is the persistent instruction set that applies to every message. It's separate from the user message so the AI treats it as its operating rules, not as conversational input. This is more reliable than putting everything in the user message.</li>
+      <li><strong><code>max_tokens=300</code></strong> — Caps the response length. A full JSON response for one review is about 150–200 tokens. Setting 300 gives headroom without risking a long rambling response that breaks parsing.</li>
+      <li><strong>Markdown fence stripping</strong> — Even when told to return only JSON, Claude sometimes wraps the output in <code>```json ... ```</code> code fences (this is what caused the first test to fail). The stripping logic splits on the backticks and extracts just the JSON content.</li>
+      <li><strong><code>json.loads(raw)</code></strong> — Converts the JSON string into a Python dictionary. After this, you access fields like <code>result["primary_category"]</code> instead of parsing text manually.</li>
+    </ul>
+  </div>
+
+  <div class="card code-card">
+    <span class="step-badge">Batching and rate limits</span>
+    <h3>Why we pause between batches</h3>
+    <pre><span class="keyword">if</span> i % BATCH_SIZE == <span class="number">0</span>:
+    time.<span class="func">sleep</span>(BATCH_PAUSE)   <span class="comment"># pause 2 seconds every 10 reviews</span></pre>
+    <p>APIs have <strong>rate limits</strong> — maximum number of requests allowed per minute. If you send 388 requests as fast as possible, the API will eventually return a <code>429 Too Many Requests</code> error and stop responding.</p>
+    <p>By pausing 2 seconds every 10 reviews, we spread the load over time and stay comfortably within the limits. For 388 reviews at this pace, the total run time was about 8–10 minutes — acceptable for a one-time batch job.</p>
+    <div class="learn-box">
+      <strong>Concept — Rate limiting:</strong><br>
+      Rate limits protect API servers from being overwhelmed by any single user. They're measured in requests per minute (RPM) or tokens per minute (TPM). The Anthropic free tier allows 50 RPM. Our batch approach of 10 requests per 2 seconds = 300 RPM theoretical max, but with processing time per request we stayed well under the limit.
+    </div>
+  </div>
+
+  <div class="card code-card">
+    <span class="step-badge">Resilience</span>
+    <h3>Incremental saving and fallback handling</h3>
+    <pre><span class="comment"># Save progress every 50 reviews</span>
+<span class="keyword">if</span> i % <span class="number">50</span> == <span class="number">0</span>:
+    pd.<span class="func">DataFrame</span>(results).<span class="func">to_csv</span>(OUTPUT, index=<span class="keyword">False</span>)
+
+<span class="comment"># If anything fails, use safe defaults instead of crashing</span>
+<span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+    results.<span class="func">append</span>({**row_data, **FALLBACK})
+    <span class="func">print</span>(<span class="string">f"ERROR: {e}"</span>)</pre>
+    <p>Two defensive patterns that protect the run:</p>
+    <ul>
+      <li><strong>Incremental saving</strong> — Every 50 reviews the current results are written to disk. If the script crashes at review 300, you don't lose everything — you pick up from the last save point. For long-running jobs this is essential.</li>
+      <li><strong>Fallback on error</strong> — Instead of crashing when one review fails (bad JSON, network blip, etc.), the script logs the error and inserts a "Miscellaneous / low confidence" row so processing continues. The final CSV has 388 rows no matter what.</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Concept — Defensive programming:</strong><br>
+      Writing code that handles failures gracefully rather than assuming everything will work. Real-world systems have network hiccups, API timeouts, and malformed data. Defensive code anticipates these and degrades gracefully instead of stopping cold. The two patterns above — save often, catch exceptions — are the most common forms of this in data pipelines.
+    </div>
+  </div>
+
+
+  <!-- THE DEBUG MOMENT -->
+  <h2 class="section-title">The Debugging Moment — JSON Parse Failure</h2>
+
+  <div class="card debug">
+    <span class="debug-badge">Debugging</span>
+    <h3>Why the first test crashed</h3>
+    <p>The test script sent one review to Claude and tried to parse the response with <code>json.loads(raw)</code>. It crashed with:</p>
+    <pre>JSONDecodeError: Expecting value: line 1 column 1 (char 0)</pre>
+    <p>This error means <code>json.loads()</code> received a string that didn't start with a JSON value (<code>{</code>, <code>[</code>, a number, etc.). Instead it got a backtick — the start of a markdown code fence.</p>
+    <p>To diagnose it, we printed the raw response before parsing:</p>
+    <pre><span class="func">print</span>(<span class="func">repr</span>(msg.content[<span class="number">0</span>].text))</pre>
+    <p>Using <code>repr()</code> shows the string exactly as Python sees it — including escape characters. The output revealed:</p>
+    <pre><span class="string">'```json\n{\n  "primary_category": "Service/Staff"...\n}\n```'</span></pre>
+    <p>Claude had wrapped the JSON in markdown code fences. The fix was to detect and strip them before parsing. This is a very common pattern when working with AI APIs — models trained on code documentation tend to format code-like output with fences even when instructed not to.</p>
+    <div class="learn-box">
+      <strong>Debugging technique — repr():</strong><br>
+      <code>print(x)</code> shows a human-friendly version of a string. <code>print(repr(x))</code> shows the raw Python representation, including quotes, escape sequences like <code>\n</code> (newline), and special characters. When debugging string parsing issues, <code>repr()</code> often reveals the problem immediately.
+    </div>
+  </div>
+
+
+  <!-- SYSTEM VS USER MESSAGE -->
+  <h2 class="section-title">System Prompt vs. User Message — What's the Difference?</h2>
+
+  <div class="card concept">
+    <p>The Claude API (and most modern AI APIs) separates messages into two roles:</p>
+    <table>
+      <tr><th>Role</th><th>Purpose</th><th>How Claude treats it</th></tr>
+      <tr><td><strong>System</strong></td><td>Persistent instructions that define behavior for the entire conversation</td><td>High-priority operating rules — Claude follows these throughout</td></tr>
+      <tr><td><strong>User</strong></td><td>The actual input for this specific request</td><td>The thing to respond to, within the rules set by the system</td></tr>
+    </table>
+    <p>In our script, the system message is the full prompt template (categories, definitions, output format). The user message is simply the review text. This separation is intentional:</p>
+    <ul>
+      <li>The system prompt stays constant across all 388 calls — we load it once</li>
+      <li>Only the user message changes per review — just the review text</li>
+      <li>This is more efficient and more reliable than combining everything into one giant user message each time</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Concept — Context window:</strong><br>
+      Every AI model has a maximum amount of text it can process at once, called the context window. By keeping the system prompt consistent and the user message short (just the review text), we use far fewer tokens per call than if we re-sent the full instructions with every review. With 388 reviews, this efficiency adds up significantly.
+    </div>
+  </div>
+
+
+  <!-- WHAT THE RESULTS TELL US -->
+  <h2 class="section-title">What the Results Tell Rinata's Management</h2>
+
+  <div class="card">
+    <table>
+      <tr><th>Finding</th><th>Business implication</th></tr>
+      <tr><td>274 reviews (71%) about Food Quality</td><td>The kitchen is the heart of Rinata's reputation. Food quality drives the overwhelming majority of customer experiences — positive and negative.</td></tr>
+      <tr><td>61 reviews (16%) about Atmosphere</td><td>Ambiance, decor, and outdoor seating are a meaningful secondary draw — worth maintaining and marketing.</td></tr>
+      <tr><td>Only 3 Wait Time reviews</td><td>Operationally strong — customers are not complaining about service speed. This is a competitive advantage.</td></tr>
+      <tr><td>349 positive (90%)</td><td>An exceptionally high satisfaction rate. Most restaurants see 70–80% positive. Rinata is outperforming.</td></tr>
+      <tr><td>8 high-urgency reviews</td><td>These should be read individually by management. They represent the most serious complaints and may contain actionable information about specific failures.</td></tr>
+      <tr><td>20 medium-urgency reviews</td><td>Recurring patterns here (e.g. a specific menu item, a consistency issue) are worth tracking across the dashboard.</td></tr>
+    </table>
+  </div>
+
+
+  <!-- CONCEPTS SUMMARY -->
+  <h2 class="section-title">Core Concepts You Learned in Stage 4</h2>
+  <div class="card">
+    <table>
+      <tr><th>Concept</th><th>Simple definition</th></tr>
+      <tr><td>Prompt engineering</td><td>Writing instructions for AI that reliably produce the output format and quality you need</td></tr>
+      <tr><td>System prompt</td><td>Persistent AI instructions that define behavior across all messages in a session</td></tr>
+      <tr><td>User message</td><td>The specific input for one request — processed within the rules set by the system prompt</td></tr>
+      <tr><td>Structured output</td><td>Instructing an AI to return data in a fixed format (JSON) rather than free-form text</td></tr>
+      <tr><td>JSON</td><td>JavaScript Object Notation — a universal text format for structured data using key-value pairs</td></tr>
+      <tr><td>json.loads()</td><td>Python function that converts a JSON string into a Python dictionary</td></tr>
+      <tr><td>Markdown code fences</td><td>The ```code``` syntax AI models use to format code — must be stripped before JSON parsing</td></tr>
+      <tr><td>repr()</td><td>Shows a string's raw Python representation — essential for debugging encoding and formatting issues</td></tr>
+      <tr><td>Rate limiting</td><td>API restriction on how many requests you can send per minute — handled by pausing between batches</td></tr>
+      <tr><td>Context window</td><td>The maximum text an AI model can process in one request</td></tr>
+      <tr><td>Tokens</td><td>The chunks of text AI models process — roughly 0.75 words each, used for pricing and limits</td></tr>
+      <tr><td>Defensive programming</td><td>Writing code that handles failures gracefully instead of crashing — try/except, incremental saves, fallbacks</td></tr>
+      <tr><td>Incremental saving</td><td>Writing results to disk periodically during long jobs so progress isn't lost if something fails</td></tr>
+      <tr><td>Fallback values</td><td>Safe default values used when an operation fails, allowing processing to continue</td></tr>
+    </table>
+  </div>
+
+
+  <!-- WHAT'S NEXT -->
+  <h2 class="section-title">What Stage 5 Will Cover</h2>
+  <div class="card">
+    <p>Stage 5 takes the categorized CSV and builds the final Excel workbook — four sheets that turn raw numbers into a professional management dashboard.</p>
+    <ul>
+      <li><strong>Sheet 1 — Raw Data:</strong> All 597 reviews with original text and scraped fields</li>
+      <li><strong>Sheet 2 — Categorized:</strong> The 388 AI-labeled reviews with all classification fields</li>
+      <li><strong>Sheet 3 — Day-of-Week Analysis:</strong> Cross-tab of ratings and complaint categories by day</li>
+      <li><strong>Sheet 4 — Summary Dashboard:</strong> KPIs, category breakdown charts, urgency flags, top quotes</li>
+    </ul>
+    <p style="margin-top:12px;">You will learn: <strong>openpyxl</strong> (writing Excel from Python), chart creation, cell styling, and how to structure data for non-technical readers.</p>
+  </div>
+
+  <!-- CHECKLIST -->
+  <h2 class="section-title">Stage 4 Completion Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>Prompt template written and saved to <code>prompts/classify_prompt.txt</code></li>
+      <li>Role framing, category definitions, urgency scale, and output format all included in prompt</li>
+      <li>Claude API called with system + user message pattern</li>
+      <li>Markdown code fence stripping implemented and tested</li>
+      <li>JSON parse error debugged using repr() to inspect raw response</li>
+      <li>Batch pausing implemented (every 10 reviews, 2 second pause)</li>
+      <li>Incremental saves implemented (every 50 reviews)</li>
+      <li>Fallback values on error implemented</li>
+      <li>388 reviews processed with 0 errors</li>
+      <li>Results saved to <code>output/categorized_reviews.csv</code></li>
+      <li>Category, sentiment, and urgency breakdowns printed in summary</li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+  <p style="text-align:center; color:#999; font-size:0.85em;">Rinata Feedback Intelligence Project &nbsp;|&nbsp; Stage 4 of 6 &nbsp;|&nbsp; Generated May 2026</p>
+
+</div>
+</body>
+</html>

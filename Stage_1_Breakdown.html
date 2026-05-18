@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata Project — Stage 1 Breakdown</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #2c2c2c;
+      line-height: 1.7;
+    }
+    .cover {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white;
+      padding: 80px 60px;
+      min-height: 220px;
+    }
+    .cover h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+    .cover h2 { font-size: 1.2em; font-weight: 300; opacity: 0.8; margin-bottom: 20px; }
+    .cover .meta { font-size: 0.9em; opacity: 0.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 30px 80px; }
+    h2.section-title {
+      font-size: 1.5em;
+      color: #0f3460;
+      border-left: 5px solid #e94560;
+      padding-left: 14px;
+      margin: 50px 0 18px;
+    }
+    h3 { font-size: 1.1em; color: #1a1a2e; margin: 28px 0 8px; }
+    h4 { font-size: 0.95em; color: #444; margin: 18px 0 6px; font-weight: 600; }
+    p { margin-bottom: 12px; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .card.highlight {
+      border-left: 4px solid #e94560;
+    }
+    .card.concept {
+      border-left: 4px solid #0f3460;
+    }
+    .card.code-card {
+      border-left: 4px solid #2ecc71;
+    }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.88em;
+      color: #c0392b;
+    }
+    pre {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 20px 24px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88em;
+      line-height: 1.6;
+      margin: 14px 0;
+    }
+    pre .comment { color: #6c7086; }
+    pre .keyword { color: #cba6f7; }
+    pre .string { color: #a6e3a1; }
+    pre .func { color: #89b4fa; }
+    pre .var { color: #f38ba8; }
+    .step-badge {
+      display: inline-block;
+      background: #e94560;
+      color: white;
+      font-size: 0.75em;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .learn-box {
+      background: #eaf4fb;
+      border: 1px solid #aed6f1;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 0.93em;
+    }
+    .learn-box strong { color: #1a6fa0; }
+    .file-tree {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 20px 24px;
+      border-radius: 8px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9em;
+      line-height: 1.9;
+    }
+    .file-tree .folder { color: #89b4fa; }
+    .file-tree .file { color: #a6e3a1; }
+    .file-tree .note { color: #6c7086; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+    th { background: #0f3460; color: white; padding: 10px 14px; text-align: left; }
+    td { padding: 9px 14px; border-bottom: 1px solid #e5e5e5; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.95em; }
+    .checklist li::before { content: "✅ "; }
+    .tag {
+      display: inline-block;
+      background: #eee;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.8em;
+      margin: 2px;
+      font-family: monospace;
+    }
+    .warning {
+      background: #fff8e1;
+      border-left: 4px solid #f39c12;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin: 14px 0;
+      font-size: 0.93em;
+    }
+    .divider { border: none; border-top: 1px solid #ddd; margin: 40px 0; }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Rinata Feedback Intelligence System</h1>
+  <h2>Stage 1 — Environment Setup: Complete Breakdown</h2>
+  <div class="meta">Project: Rinata Restaurant &nbsp;|&nbsp; Date: May 2026 &nbsp;|&nbsp; Stage: 1 of 6</div>
+</div>
+
+<div class="container">
+
+  <!-- OVERVIEW -->
+  <h2 class="section-title">What Stage 1 Is and Why It Matters</h2>
+  <div class="card highlight">
+    <p>Before writing a single line of project logic, every software project needs a <strong>working environment</strong>. Think of Stage 1 as building your workshop before you start woodworking — you need your tools laid out, your power connected, and a quick test that the lights work.</p>
+    <p>In software, that means:</p>
+    <ul style="margin-left:20px; margin-top:8px;">
+      <li>A clean folder structure so files don't get chaotic</li>
+      <li>The right libraries installed so your code can use them</li>
+      <li>Credentials stored safely so the API accepts your requests</li>
+      <li>A test script that proves the whole chain works end to end</li>
+    </ul>
+  </div>
+
+
+  <!-- STEP 1: FOLDER STRUCTURE -->
+  <h2 class="section-title">Step 1 — Creating the Folder Structure</h2>
+
+  <div class="card">
+    <span class="step-badge">What we did</span>
+    <p>We created four subfolders inside <code>C:\Users\shant\projects\Rinata\</code>:</p>
+    <div class="file-tree">
+      <span class="folder">Rinata/</span><br>
+      &nbsp;&nbsp;├── <span class="file">Idea Plan.pdf</span> &nbsp;<span class="note">← already existed</span><br>
+      &nbsp;&nbsp;├── <span class="file">.env</span> &nbsp;<span class="note">← API key (new)</span><br>
+      &nbsp;&nbsp;├── <span class="file">test_api.py</span> &nbsp;<span class="note">← connection test (new)</span><br>
+      &nbsp;&nbsp;├── <span class="folder">scraper/</span> &nbsp;<span class="note">← will hold the Google Reviews scraper</span><br>
+      &nbsp;&nbsp;├── <span class="folder">categorizer/</span> &nbsp;<span class="note">← will hold the AI classification scripts</span><br>
+      &nbsp;&nbsp;├── <span class="folder">output/</span> &nbsp;<span class="note">← where CSV and Excel files will be saved</span><br>
+      &nbsp;&nbsp;└── <span class="folder">prompts/</span> &nbsp;<span class="note">← where AI prompt templates are stored</span><br>
+    </div>
+  </div>
+
+  <div class="card concept">
+    <h3>Why organize this way?</h3>
+    <p>Separating code by <em>responsibility</em> is a core software engineering habit called <strong>Separation of Concerns</strong>. Each folder has one job:</p>
+    <table>
+      <tr><th>Folder</th><th>Job</th><th>Analogy</th></tr>
+      <tr><td><code>scraper/</code></td><td>Collect raw data from Google</td><td>The net that catches fish</td></tr>
+      <tr><td><code>categorizer/</code></td><td>Clean and label the data</td><td>The processing plant</td></tr>
+      <tr><td><code>output/</code></td><td>Store finished files</td><td>The warehouse shelf</td></tr>
+      <tr><td><code>prompts/</code></td><td>Hold AI prompt templates</td><td>The recipe book</td></tr>
+    </table>
+    <p>If all scripts were dumped in one folder, a project with 10+ files becomes impossible to navigate. This structure scales cleanly into Stages 2–6.</p>
+  </div>
+
+  <div class="card code-card">
+    <h3>The command we ran</h3>
+    <pre>mkdir -p "C:\Users\shant\projects\Rinata\scraper" \
+         "C:\Users\shant\projects\Rinata\categorizer" \
+         "C:\Users\shant\projects\Rinata\output" \
+         "C:\Users\shant\projects\Rinata\prompts"</pre>
+    <h4>Breaking it down:</h4>
+    <ul style="margin-left:20px; font-size:0.93em;">
+      <li><code>mkdir</code> — "make directory." Creates a folder.</li>
+      <li><code>-p</code> — "parents." Creates nested folders in one shot, and doesn't error if they already exist. Without <code>-p</code>, you'd have to create each folder one at a time.</li>
+      <li>Multiple paths listed — creates all four folders in a single command instead of four separate commands.</li>
+    </ul>
+  </div>
+
+
+  <!-- STEP 2: INSTALLING DEPENDENCIES -->
+  <h2 class="section-title">Step 2 — Installing Python Libraries</h2>
+
+  <div class="card">
+    <span class="step-badge">What we did</span>
+    <p>We installed five Python packages that the project will depend on throughout all six stages.</p>
+    <pre>python3 -m pip install playwright anthropic openpyxl pandas python-dotenv</pre>
+  </div>
+
+  <div class="card concept">
+    <h3>What is <code>pip</code>?</h3>
+    <p><code>pip</code> is Python's <strong>package manager</strong> — it downloads and installs code libraries written by other developers so you don't have to write everything from scratch. Think of it like an app store, but for Python code.</p>
+    <p>We used <code>python3 -m pip</code> instead of just <code>pip</code> because on Windows, calling <code>pip</code> directly sometimes points to the wrong Python installation. Using <code>python3 -m pip</code> guarantees we're using the pip that belongs to our specific Python version.</p>
+  </div>
+
+  <div class="card concept">
+    <h3>What each library does</h3>
+    <table>
+      <tr><th>Library</th><th>What it does</th><th>Used in Stage</th></tr>
+      <tr><td><code>playwright</code></td><td>Controls a real web browser (Chrome) from Python. Used to open Google Maps and scroll through reviews automatically.</td><td>2 — Scraper</td></tr>
+      <tr><td><code>anthropic</code></td><td>The official Python SDK (Software Development Kit) for Anthropic's Claude API. Lets you send text to Claude and receive a response.</td><td>4 — Categorization</td></tr>
+      <tr><td><code>openpyxl</code></td><td>Reads and writes Excel (.xlsx) files from Python. Used to build the final workbook with sheets and charts.</td><td>5 — Excel</td></tr>
+      <tr><td><code>pandas</code></td><td>A powerful data analysis library. Think of it as Excel inside Python — DataFrames, pivot tables, aggregations, filtering.</td><td>3, 5 — Cleaning & Excel</td></tr>
+      <tr><td><code>python-dotenv</code></td><td>Reads a <code>.env</code> file and makes the values available to your Python script. Used to load your API key safely.</td><td>All stages</td></tr>
+    </table>
+  </div>
+
+  <div class="card code-card">
+    <h3>Installing the Playwright browser</h3>
+    <pre>python3 -m playwright install chromium</pre>
+    <p>Playwright is a two-part install:</p>
+    <ol style="margin-left:20px; font-size:0.93em; margin-top:8px;">
+      <li><strong>The Python library</strong> — installed with pip above. This is the code that controls the browser.</li>
+      <li><strong>The browser itself</strong> — Playwright downloads a specific version of Chromium (the open-source engine behind Google Chrome) that it knows how to control reliably. This is separate from your regular Chrome browser.</li>
+    </ol>
+    <p style="margin-top:10px;">We chose <strong>Chromium</strong> (not Firefox or WebKit) because Google Maps is optimized for Chrome-based browsers.</p>
+  </div>
+
+  <div class="learn-box">
+    <strong>Concept: What is an SDK?</strong><br>
+    SDK stands for Software Development Kit. When a company (like Anthropic) offers an API, they often publish an SDK — a library that wraps the raw API calls in clean, easy-to-use Python functions. Without the <code>anthropic</code> SDK, you'd have to manually write HTTP requests with headers, handle errors, parse JSON responses, etc. The SDK handles all of that for you.
+  </div>
+
+
+  <!-- STEP 3: .ENV FILE -->
+  <h2 class="section-title">Step 3 — Creating the <code>.env</code> File</h2>
+
+  <div class="card">
+    <span class="step-badge">What we did</span>
+    <p>We created a file called <code>.env</code> in the project root containing one line:</p>
+    <pre>ANTHROPIC_API_KEY=sk-ant-api03-...</pre>
+  </div>
+
+  <div class="card concept">
+    <h3>What is a <code>.env</code> file?</h3>
+    <p>A <code>.env</code> file (pronounced "dot env") is a plain text file used to store <strong>environment variables</strong> — values that your program needs to run but that should never be hardcoded into your scripts.</p>
+    <p>The classic example is an API key. If you write your key directly in your Python script like this:</p>
+    <pre><span class="comment"># BAD — never do this</span>
+client = anthropic.Anthropic(api_key=<span class="string">"sk-ant-api03-..."</span>)</pre>
+    <p>...and then share that script with anyone, or put it on GitHub, your key is exposed and anyone can use your API account and bill you. A <code>.env</code> file keeps the key separate from the code.</p>
+  </div>
+
+  <div class="card concept">
+    <h3>What is an API Key?</h3>
+    <p>An API key is like a <strong>password + identity card</strong> combined. When your script sends a request to Anthropic's servers, the key tells them:</p>
+    <ol style="margin-left:20px; font-size:0.93em; margin-top:8px;">
+      <li><em>Who you are</em> — which account is making the request</li>
+      <li><em>That you're authorized</em> — the key proves you have permission</li>
+      <li><em>How to bill you</em> — usage is tracked and billed per key</li>
+    </ol>
+    <p style="margin-top:10px;">API keys should be treated like passwords: never share them, never commit them to version control, and rotate them if you accidentally expose one.</p>
+
+    <div class="warning">
+      <strong>Security note:</strong> Your API key was shared in plain text during this session. It is recommended to rotate it at <strong>console.anthropic.com</strong> — go to API Keys, revoke the current one, and generate a new one. Then update the value in your <code>.env</code> file.
+    </div>
+  </div>
+
+  <div class="card concept">
+    <h3>What is an environment variable?</h3>
+    <p>An environment variable is a named value stored in the operating system's memory, accessible to any program running in that environment. Programs can read these values at runtime without them being baked into the code itself.</p>
+    <p>Think of it like a bulletin board in a kitchen — the chef (your Python script) reads the specials (variables) posted there rather than having them printed permanently in the recipe book (source code). The specials can change without reprinting the book.</p>
+    <p>The format in a <code>.env</code> file is always: <code>VARIABLE_NAME=value</code> — all caps for the name by convention, no spaces around the <code>=</code>.</p>
+  </div>
+
+
+  <!-- STEP 4: TEST SCRIPT -->
+  <h2 class="section-title">Step 4 — Writing the Test Script</h2>
+
+  <div class="card">
+    <span class="step-badge">What we did</span>
+    <p>We created <code>test_api.py</code> — a short script that reads the API key from the <code>.env</code> file, connects to Claude, and prints a confirmation message.</p>
+  </div>
+
+  <div class="card code-card">
+    <h3>The full script with line-by-line explanation</h3>
+    <pre><span class="keyword">from</span> dotenv <span class="keyword">import</span> dotenv_values   <span class="comment"># 1</span>
+<span class="keyword">from</span> pathlib <span class="keyword">import</span> Path              <span class="comment"># 2</span>
+<span class="keyword">import</span> anthropic                       <span class="comment"># 3</span>
+
+env = dotenv_values(                    <span class="comment"># 4</span>
+    Path(__file__).parent / <span class="string">".env"</span>     <span class="comment"># 5</span>
+)
+
+client = anthropic.Anthropic(           <span class="comment"># 6</span>
+    api_key=env[<span class="string">"ANTHROPIC_API_KEY"</span>]   <span class="comment"># 7</span>
+)
+
+message = client.messages.create(       <span class="comment"># 8</span>
+    model=<span class="string">"claude-haiku-4-5-20251001"</span>, <span class="comment"># 9</span>
+    max_tokens=<span class="func">64</span>,                     <span class="comment"># 10</span>
+    messages=[{                         <span class="comment"># 11</span>
+        <span class="string">"role"</span>: <span class="string">"user"</span>,
+        <span class="string">"content"</span>: <span class="string">"Say 'Rinata API connection successful!' and nothing else."</span>
+    }]
+)
+
+<span class="func">print</span>(message.content[<span class="func">0</span>].text)        <span class="comment"># 12</span></pre>
+
+    <h4>Line-by-line breakdown:</h4>
+    <ol style="margin-left:20px; font-size:0.92em; line-height:2;">
+      <li><strong>Line 1:</strong> Imports <code>dotenv_values</code> from the <code>python-dotenv</code> library. This function reads a <code>.env</code> file and returns its contents as a Python dictionary.</li>
+      <li><strong>Line 2:</strong> Imports <code>Path</code> from Python's built-in <code>pathlib</code> module. <code>Path</code> objects represent file system paths in a cross-platform way (works on Windows, Mac, and Linux).</li>
+      <li><strong>Line 3:</strong> Imports the <code>anthropic</code> library — the Claude API SDK.</li>
+      <li><strong>Line 4:</strong> Calls <code>dotenv_values()</code> and stores the result in a variable called <code>env</code>. The result is a dictionary like <code>{"ANTHROPIC_API_KEY": "sk-ant-..."}</code>.</li>
+      <li><strong>Line 5:</strong> <code>Path(__file__)</code> is the path to the current script file. <code>.parent</code> gives us the folder that contains it (the <code>Rinata/</code> directory). <code>/ ".env"</code> appends <code>.env</code> to that path. This means the script always finds the <code>.env</code> file relative to itself, no matter where you run it from.</li>
+      <li><strong>Line 6:</strong> Creates an Anthropic client object — the thing that knows how to communicate with Claude's API.</li>
+      <li><strong>Line 7:</strong> Passes the API key from our <code>env</code> dictionary into the client so it can authenticate.</li>
+      <li><strong>Line 8:</strong> Calls <code>client.messages.create()</code> — this is the actual API call that sends a message to Claude and waits for a response.</li>
+      <li><strong>Line 9:</strong> Specifies which Claude model to use. We chose <code>claude-haiku</code> — the fastest and cheapest model, perfect for a quick test.</li>
+      <li><strong>Line 10:</strong> <code>max_tokens=64</code> limits how long Claude's response can be. A "token" is roughly 0.75 words. 64 tokens ≈ about 48 words — plenty for a short confirmation message, and prevents accidentally generating (and being billed for) a long response.</li>
+      <li><strong>Line 11:</strong> The <code>messages</code> parameter takes a list of message objects. Each has a <code>role</code> (either <code>"user"</code> or <code>"assistant"</code>) and <code>content</code> (the text). This mirrors a conversation format — you always need at least one user message to get a response.</li>
+      <li><strong>Line 12:</strong> Prints Claude's response. <code>message.content</code> is a list (Claude can return multiple content blocks). <code>[0]</code> gets the first one. <code>.text</code> extracts the actual text string.</li>
+    </ol>
+  </div>
+
+
+  <!-- DEBUGGING SECTION -->
+  <h2 class="section-title">Debugging We Encountered (and What We Learned)</h2>
+
+  <div class="card highlight">
+    <h3>Problem: <code>load_dotenv()</code> wasn't loading the key</h3>
+    <p>Our first version of the test script used <code>load_dotenv()</code> which is the standard approach. It loads the <code>.env</code> file and injects the values into the operating system's environment variables. The script would then read them with <code>os.getenv("ANTHROPIC_API_KEY")</code>.</p>
+    <p>But <code>os.getenv()</code> returned <code>None</code> — the key wasn't there.</p>
+
+    <h4>Why it happened:</h4>
+    <p>The shell (the terminal environment) already had <code>ANTHROPIC_API_KEY</code> set — possibly to an empty string <code>""</code>. By default, <code>load_dotenv()</code> does <strong>not override</strong> existing environment variables. So it saw a value already existed and skipped it.</p>
+
+    <h4>How we diagnosed it:</h4>
+    <p>We ran three diagnostic commands:</p>
+    <pre><span class="comment"># Test 1: Does dotenv parse the file correctly?</span>
+dotenv_values(<span class="string">".env"</span>)
+<span class="comment"># Result: returned the key correctly ✅</span>
+
+<span class="comment"># Test 2: Does load_dotenv set the env var?</span>
+load_dotenv(); os.getenv(<span class="string">"ANTHROPIC_API_KEY"</span>)
+<span class="comment"># Result: returned None ❌</span>
+
+<span class="comment"># Test 3: Is the key already in the environment?</span>
+os.getenv(<span class="string">"ANTHROPIC_API_KEY"</span>, <span class="string">"NOT SET"</span>)
+<span class="comment"># Result: empty string — the variable existed but was blank</span></pre>
+
+    <h4>How we fixed it:</h4>
+    <p>Instead of using <code>load_dotenv()</code> + <code>os.getenv()</code>, we switched to <code>dotenv_values()</code> which reads the <code>.env</code> file and returns a plain Python dictionary — it never touches the OS environment variables at all. We then pass the value directly where needed.</p>
+    <pre><span class="comment"># Fixed approach — reads file directly, ignores OS environment</span>
+env = dotenv_values(Path(__file__).parent / <span class="string">".env"</span>)
+client = anthropic.Anthropic(api_key=env[<span class="string">"ANTHROPIC_API_KEY"</span>])</pre>
+
+    <div class="learn-box">
+      <strong>Key lesson:</strong> Debugging is normal. The systematic approach — isolate each part, test each part independently, identify where the chain breaks — is more important than knowing the answer upfront. This three-step diagnostic process is exactly how experienced developers debug.
+    </div>
+  </div>
+
+
+  <!-- CONCEPTS SUMMARY -->
+  <h2 class="section-title">Core Concepts Summary</h2>
+
+  <div class="card">
+    <table>
+      <tr><th>Concept</th><th>Simple definition</th></tr>
+      <tr><td>Package manager (<code>pip</code>)</td><td>Downloads and installs code libraries written by others</td></tr>
+      <tr><td>Library / Package</td><td>Pre-written code you can import and use in your own scripts</td></tr>
+      <tr><td>SDK</td><td>A library specifically designed to make using an API easier</td></tr>
+      <tr><td>API</td><td>A way for two programs to communicate — you send a request, you get a response</td></tr>
+      <tr><td>API Key</td><td>A secret credential that authenticates your requests to an API</td></tr>
+      <tr><td>Environment variable</td><td>A named value stored in the OS, accessible to programs at runtime</td></tr>
+      <tr><td><code>.env</code> file</td><td>A text file that stores environment variables for local development</td></tr>
+      <tr><td>Token (AI)</td><td>A chunk of text (~0.75 words) — the unit AI models use for input and output pricing</td></tr>
+      <tr><td>Dictionary (Python)</td><td>A collection of key-value pairs: <code>{"key": "value"}</code></td></tr>
+      <tr><td>Path object</td><td>A Python object representing a file system path in a cross-platform way</td></tr>
+    </table>
+  </div>
+
+
+  <!-- WHAT'S NEXT -->
+  <h2 class="section-title">What Stage 2 Will Cover</h2>
+  <div class="card">
+    <p>Stage 2 is the scraper — the script that opens Google Maps in a real browser (controlled by your Python code), scrolls through all the Rinata reviews, and saves them to a CSV file.</p>
+    <p>You will learn:</p>
+    <ul style="margin-left:20px; margin-top:8px;">
+      <li><strong>Playwright</strong> — how to launch a browser, navigate to a URL, and interact with page elements using code</li>
+      <li><strong>CSS selectors</strong> — how to identify and target specific HTML elements on a page (like review cards)</li>
+      <li><strong>Scrolling and dynamic content</strong> — how to handle pages that load more content as you scroll</li>
+      <li><strong>CSV files</strong> — how to save structured data in a simple, portable format</li>
+      <li><strong>Date parsing</strong> — how to convert relative timestamps like "2 weeks ago" into real calendar dates</li>
+    </ul>
+  </div>
+
+
+  <!-- CHECKLIST -->
+  <h2 class="section-title">Stage 1 Completion Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>Project folder structure created with 4 subfolders</li>
+      <li><code>playwright</code> installed (Python library)</li>
+      <li><code>anthropic</code> SDK installed</li>
+      <li><code>openpyxl</code> installed</li>
+      <li><code>pandas</code> installed</li>
+      <li><code>python-dotenv</code> installed</li>
+      <li>Playwright Chromium browser downloaded</li>
+      <li><code>.env</code> file created with API key</li>
+      <li><code>test_api.py</code> written and executed successfully</li>
+      <li>Claude API responded: "Rinata API connection successful!"</li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+  <p style="text-align:center; color:#999; font-size:0.85em;">Rinata Feedback Intelligence Project &nbsp;|&nbsp; Stage 1 of 6 &nbsp;|&nbsp; Generated May 2026</p>
+
+</div>
+</body>
+</html>

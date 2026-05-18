@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata Restaurant — Complete Intelligence Report</title>
+  <style>
+    :root {
+      --navy: #0f3460;
+      --dark: #1a1a2e;
+      --red: #e94560;
+      --green: #27ae60;
+      --blue: #2980b9;
+      --gold: #e67e22;
+      --purple: #8e44ad;
+      --sidebar-w: 240px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6f8; color: #2c2c2c; }
+
+    /* ════════════════════ SIDEBAR NAV ════════════════════ */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--dark);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 40px;
+    }
+    .sidebar-logo {
+      padding: 28px 24px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-logo .rest-name {
+      font-size: 1.05em;
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+    }
+    .sidebar-logo .rest-sub {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.35);
+      margin-top: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nav-group { padding: 20px 0 6px; }
+    .nav-group-label {
+      font-size: 0.62em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      font-weight: 700;
+      padding: 0 24px;
+      margin-bottom: 6px;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 24px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.87em;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .nav-link:hover { color: white; background: rgba(255,255,255,0.05); }
+    .nav-link.active { color: white; border-left-color: var(--red); background: rgba(233,69,96,0.08); }
+    .nav-link .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ════════════════════ MAIN CONTENT ════════════════════ */
+    .main { margin-left: var(--sidebar-w); }
+
+    /* ════════════════════ HERO ════════════════════ */
+    .hero {
+      background: linear-gradient(140deg, #0d0d1a 0%, #0f3460 65%, #1a1a2e 100%);
+      color: white;
+      padding: 90px 70px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -60px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(233,69,96,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.72em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 3.2em;
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 18px;
+      max-width: 700px;
+    }
+    .hero h1 em { font-style: normal; color: rgba(255,255,255,0.45); }
+    .hero-desc {
+      font-size: 1.05em;
+      color: rgba(255,255,255,0.62);
+      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+    }
+    .hero-kpis {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 36px;
+    }
+    .hero-kpi {
+      padding: 0 40px 0 0;
+      margin-right: 40px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-kpi:last-child { border-right: none; }
+    .hero-kpi .n { font-size: 2.4em; font-weight: 900; color: white; display: block; line-height: 1; }
+    .hero-kpi .l { font-size: 0.7em; color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; display: block; }
+
+    /* ════════════════════ AI BANNER ════════════════════ */
+    .ai-banner {
+      background: var(--red);
+      color: white;
+      padding: 22px 70px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.92em;
+      line-height: 1.6;
+    }
+    .ai-banner .icon { font-size: 1.6em; flex-shrink: 0; }
+
+    /* ════════════════════ SECTIONS ════════════════════ */
+    .content { max-width: 860px; margin: 0 auto; padding: 70px 50px 120px; }
+
+    .section { margin-bottom: 80px; scroll-margin-top: 30px; }
+    .section-eyebrow {
+      font-size: 0.68em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .ey-green  { color: var(--green); }
+    .ey-red    { color: #c0392b; }
+    .ey-blue   { color: var(--blue); }
+    .ey-gold   { color: var(--gold); }
+    .ey-purple { color: var(--purple); }
+    .ey-navy   { color: var(--navy); }
+    .ey-teal   { color: #16a085; }
+
+    .section-title {
+      font-size: 2em;
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .section-intro {
+      font-size: 0.97em;
+      color: #666;
+      max-width: 700px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    /* ════════════════════ CARDS ════════════════════ */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 26px 30px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+    }
+    .card.s  { border-left: 5px solid var(--green); }
+    .card.w  { border-left: 5px solid #e74c3c; }
+    .card.o  { border-left: 5px solid var(--blue); }
+    .card.g  { border-left: 5px solid #2ecc71; }
+    .card.m  { border-left: 5px solid #3498db; }
+    .card.r  { border-left: 5px solid #e74c3c; }
+    .card.l  { border-left: 5px solid var(--purple); }
+    .card.warn { border-left: 5px solid #e74c3c; background: #fff9f9; }
+    .card.ai-c { border-left: 5px solid var(--purple); background: #fdf8ff; }
+    .card.data-c { border-left: 5px solid var(--gold); background: #fffdf5; }
+
+    .card-title {
+      font-size: 1.05em;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      font-size: 0.66em; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .p-green  { background: #d5f5e3; color: #1e8449; }
+    .p-red    { background: #fadbd8; color: #c0392b; }
+    .p-blue   { background: #d6eaf8; color: #1a56a0; }
+    .p-gold   { background: #fef9e7; color: #b7770d; }
+    .p-purple { background: #f5eef8; color: #6c3483; }
+
+    .card p { font-size: 0.93em; color: #444; line-height: 1.8; margin-bottom: 10px; }
+    .card p:last-child { margin-bottom: 0; }
+    .card ul { margin-left: 20px; }
+    .card li { font-size: 0.91em; color: #444; line-height: 1.75; margin-bottom: 5px; }
+    strong { color: var(--dark); }
+
+    /* ════════════════════ QUOTES ════════════════════ */
+    .quote {
+      background: #f7f8fa;
+      border-left: 3px solid #d0d4dc;
+      border-radius: 0 8px 8px 0;
+      padding: 13px 18px;
+      margin: 13px 0;
+      font-style: italic;
+      font-size: 0.91em;
+      color: #444;
+      line-height: 1.65;
+    }
+    .quote .stars { font-style: normal; font-size: 0.8em; font-weight: 700; color: var(--gold); margin-bottom: 4px; display: block; }
+    .quote.warn-q { border-left-color: #e74c3c; background: #fff5f5; }
+
+    /* ════════════════════ STATS ════════════════════ */
+    .stat-row { display: flex; gap: 12px; margin: 18px 0; flex-wrap: wrap; }
+    .stat-pill {
+      background: #f2f4f7;
+      border-radius: 10px;
+      padding: 15px 20px;
+      text-align: center;
+      flex: 1;
+      min-width: 100px;
+    }
+    .stat-pill .n { font-size: 1.8em; font-weight: 900; color: var(--navy); display: block; line-height: 1; }
+    .stat-pill .l { font-size: 0.68em; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; display: block; }
+
+    /* ════════════════════ CATEGORY BARS ════════════════════ */
+    .cat-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .cat-row td { padding: 10px 0; vertical-align: middle; }
+    .cat-name { font-size: 0.88em; font-weight: 600; color: var(--dark); width: 170px; }
+    .cat-bar-wrap { padding: 0 16px; }
+    .cat-bar-bg { background: #eef0f4; border-radius: 4px; height: 10px; width: 100%; }
+    .cat-bar-fill { height: 10px; border-radius: 4px; background: var(--navy); transition: width 1s ease; }
+    .cat-pct { font-size: 0.84em; font-weight: 700; color: var(--navy); width: 40px; text-align: right; }
+    .cat-count { font-size: 0.78em; color: #aaa; width: 60px; text-align: right; }
+
+    /* ════════════════════ DAY TABLE ════════════════════ */
+    .day-table { width: 100%; border-collapse: collapse; font-size: 0.9em; margin: 16px 0; }
+    .day-table th { background: var(--dark); color: white; padding: 11px 16px; text-align: left; font-weight: 600; letter-spacing: 0.02em; }
+    .day-table td { padding: 11px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+    .day-table tr:hover td { background: #fafafa; }
+    .day-table .best { color: #1e8449; font-weight: 700; }
+    .day-table .worst { color: #c0392b; font-weight: 700; }
+    .day-tag { display: inline-block; font-size: 0.72em; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-left: 6px; }
+    .dt-green { background: #d5f5e3; color: #1e8449; }
+    .dt-red   { background: #fadbd8; color: #c0392b; }
+    .dt-gold  { background: #fef9e7; color: #b7770d; }
+    .rating-bar { display: inline-block; width: 60px; height: 6px; background: #eee; border-radius: 3px; vertical-align: middle; margin-left: 8px; position: relative; top: -1px; }
+    .rating-fill { height: 6px; border-radius: 3px; background: var(--gold); }
+
+    /* ════════════════════ PRO/CON ════════════════════ */
+    .pro-con { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .pro-col, .con-col { background: white; border-radius: 10px; padding: 22px 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .pro-col { border-top: 4px solid var(--green); }
+    .con-col { border-top: 4px solid #e74c3c; }
+    .pro-col h4 { color: #1e8449; margin-bottom: 14px; font-size: 0.95em; }
+    .con-col h4 { color: #c0392b; margin-bottom: 14px; font-size: 0.95em; }
+    .pro-col li, .con-col li { font-size: 0.88em; color: #444; line-height: 1.7; margin-bottom: 8px; }
+
+    /* ════════════════════ AI GRID ════════════════════ */
+    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
+    .ai-item {
+      background: white;
+      border-radius: 10px;
+      padding: 20px 22px;
+      border: 1px solid #e0d0f0;
+      box-shadow: 0 2px 8px rgba(142,68,173,0.07);
+    }
+    .ai-item .ai-icon { font-size: 1.4em; margin-bottom: 10px; display: block; }
+    .ai-item .ai-title { font-size: 0.88em; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+    .ai-item p { font-size: 0.86em; color: #555; line-height: 1.65; margin: 0; }
+
+    /* ════════════════════ ACTION LIST ════════════════════ */
+    .action-list { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+    .action-row { display: flex; gap: 16px; align-items: flex-start; }
+    .action-num {
+      width: 32px; height: 32px;
+      background: var(--navy); color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.85em;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .action-body { flex: 1; }
+    .action-title { font-weight: 700; color: var(--dark); margin-bottom: 3px; font-size: 0.95em; }
+    .action-desc { font-size: 0.88em; color: #555; line-height: 1.65; }
+
+    /* ════════════════════ BOTTOM BOX ════════════════════ */
+    .bottom-box {
+      background: var(--dark);
+      border-radius: 14px;
+      padding: 36px 42px;
+      color: white;
+      margin-top: 24px;
+    }
+    .bottom-box h4 { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 14px; }
+    .bottom-box p { font-size: 0.95em; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 0; }
+
+    /* ════════════════════ WARNING BOX ════════════════════ */
+    .warn-box {
+      background: #fff5f5; border: 1px solid #f5c6cb;
+      border-radius: 8px; padding: 16px 20px;
+      margin: 14px 0;
+    }
+    .warn-box .w-title { font-weight: 700; color: #c0392b; margin-bottom: 6px; font-size: 0.9em; }
+    .warn-box p { font-size: 0.88em; color: #555; margin: 0; line-height: 1.65; }
+
+    /* ════════════════════ DIVIDER ════════════════════ */
+    .divider { border: none; border-top: 2px solid #eaecf0; margin: 72px 0; }
+
+    /* ════════════════════ MANAGEMENT NARRATIVE ════════════════════ */
+    .narrative-block {
+      background: white;
+      border-radius: 12px;
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+    }
+    .narrative-block h3 {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f2f5;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .narrative-block ul { margin-left: 22px; }
+    .narrative-block li { font-size: 0.93em; color: #444; line-height: 1.8; margin-bottom: 8px; }
+    .narrative-block p { font-size: 0.93em; color: #444; line-height: 1.8; margin-bottom: 10px; }
+
+    /* ════════════════════ METHODOLOGY ════════════════════ */
+    .method-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+    .method-step {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.055);
+    }
+    .method-step .step-num {
+      width: 36px; height: 36px;
+      background: var(--navy); color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9em;
+      margin: 0 auto 12px;
+    }
+    .method-step .step-title { font-size: 0.82em; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .method-step .step-desc { font-size: 0.78em; color: #888; line-height: 1.55; }
+
+    /* ════════════════════ FOOTER ════════════════════ */
+    .page-footer {
+      text-align: center; color: #bbb;
+      font-size: 0.8em; padding: 28px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    /* ════════════════════ RESPONSIVE ════════════════════ */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .hero { padding: 50px 28px 44px; }
+      .hero h1 { font-size: 2.1em; }
+      .ai-banner { padding: 18px 28px; }
+      .content { padding: 44px 24px 80px; }
+      .ai-grid, .pro-con, .method-steps { grid-template-columns: 1fr; }
+      .hero-kpi { padding-right: 20px; margin-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ SIDEBAR ══════════════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="rest-name">🍝 Rinata Restaurant</div>
+    <div class="rest-sub">Intelligence Report · May 2026</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-link active" href="#data"><span class="dot" style="background:#f39c12"></span>By the Numbers</a>
+    <a class="nav-link" href="#categories"><span class="dot" style="background:#3498db"></span>Category Breakdown</a>
+    <a class="nav-link" href="#dayofweek"><span class="dot" style="background:#9b59b6"></span>Day-of-Week Analysis</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Current State</div>
+    <a class="nav-link" href="#strengths"><span class="dot" style="background:#27ae60"></span>Strengths</a>
+    <a class="nav-link" href="#weaknesses"><span class="dot" style="background:#e74c3c"></span>Weaknesses</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Strategy</div>
+    <a class="nav-link" href="#grow"><span class="dot" style="background:#2ecc71"></span>Ways to Grow</a>
+    <a class="nav-link" href="#maintain"><span class="dot" style="background:#3498db"></span>How to Maintain</a>
+    <a class="nav-link" href="#risk"><span class="dot" style="background:#e74c3c"></span>What Could Take It Down</a>
+    <a class="nav-link" href="#lease"><span class="dot" style="background:#9b59b6"></span>Selling the Lease</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Summary</div>
+    <a class="nav-link" href="#management"><span class="dot" style="background:#16a085"></span>Management Summary</a>
+    <a class="nav-link" href="#actions"><span class="dot" style="background:#e67e22"></span>Priority Actions</a>
+    <a class="nav-link" href="#ai"><span class="dot" style="background:#8e44ad"></span>The AI Advantage</a>
+    <a class="nav-link" href="#methodology"><span class="dot" style="background:#7f8c8d"></span>Methodology</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════ MAIN ══════════════════════════ -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Complete Intelligence Report &nbsp;·&nbsp; Internal Use Only</div>
+    <h1>Rinata Restaurant<br><em>— Every Review, Every Pattern,<br>Every Insight</em></h1>
+    <p class="hero-desc">
+      597 Google reviews collected, cleaned, and analyzed by AI. This single document contains the complete picture — what customers are saying, what the data reveals, and exactly what to do about it.
+    </p>
+    <div class="hero-kpis">
+      <div class="hero-kpi"><span class="n">597</span><span class="l">Reviews Collected</span></div>
+      <div class="hero-kpi"><span class="n">388</span><span class="l">Analyzed by AI</span></div>
+      <div class="hero-kpi"><span class="n">4.64</span><span class="l">Avg Star Rating</span></div>
+      <div class="hero-kpi"><span class="n">78%</span><span class="l">5-Star Reviews</span></div>
+      <div class="hero-kpi"><span class="n">90%</span><span class="l">Positive Sentiment</span></div>
+      <div class="hero-kpi"><span class="n">8</span><span class="l">Urgent Issues Flagged</span></div>
+    </div>
+  </div>
+
+  <!-- AI BANNER -->
+  <div class="ai-banner">
+    <span class="icon">🤖</span>
+    <div>
+      <strong>Powered by AI:</strong> Reading 597 reviews manually and spotting patterns — which days have more complaints, which staff get named, which issues repeat — would take days. AI analyzed all of it in minutes. Every finding below is sourced directly from Rinata's own customers.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════════════════ BY THE NUMBERS ══════════════════ -->
+    <div class="section" id="data">
+      <div class="section-eyebrow ey-gold">01 &nbsp;—&nbsp; Overview</div>
+      <div class="section-title">By the Numbers</div>
+      <p class="section-intro">These figures come from Rinata's complete Google review history — every review ever posted, collected in May 2026. The ratings and percentages below are not estimates; they are calculated directly from the raw data.</p>
+
+      <div class="card data-c">
+        <div class="card-title">Dataset Snapshot</div>
+        <div class="stat-row">
+          <div class="stat-pill"><span class="n">597</span><span class="l">Total Reviews</span></div>
+          <div class="stat-pill"><span class="n">388</span><span class="l">Written &amp; Analyzed</span></div>
+          <div class="stat-pill"><span class="n">209</span><span class="l">Rating-Only (No Text)</span></div>
+          <div class="stat-pill"><span class="n">4.64</span><span class="l">Avg Star Rating</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-pill"><span class="n">78%</span><span class="l">5-Star Reviews</span></div>
+          <div class="stat-pill"><span class="n">90%</span><span class="l">Positive Sentiment</span></div>
+          <div class="stat-pill"><span class="n">8</span><span class="l">High-Urgency Flags</span></div>
+          <div class="stat-pill"><span class="n">0</span><span class="l">Order Accuracy Issues</span></div>
+        </div>
+        <p style="margin-top:14px;">90% positive sentiment across 388 independently written reviews is not a margin of error — it is a sustained pattern built over years of customer experiences. That is the foundation every other finding in this report sits on.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ CATEGORY BREAKDOWN ══════════════════ -->
+    <div class="section" id="categories">
+      <div class="section-eyebrow ey-navy">02 &nbsp;—&nbsp; What Customers Write About</div>
+      <div class="section-title">Category Breakdown</div>
+      <p class="section-intro">Every written review was assigned a primary category by AI. This shows exactly what customers choose to write about — which is where their experience is felt most strongly.</p>
+
+      <div class="card">
+        <div class="card-title">Primary Category Distribution — 388 Reviews</div>
+        <table class="cat-table">
+          <tbody>
+            <tr>
+              <td class="cat-name">Food Quality</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:71%;background:#0f3460;"></div></div></td>
+              <td class="cat-pct">71%</td>
+              <td class="cat-count">274 reviews</td>
+            </tr>
+            <tr>
+              <td class="cat-name">Atmosphere</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:16%;background:#3498db;"></div></div></td>
+              <td class="cat-pct">16%</td>
+              <td class="cat-count">61 reviews</td>
+            </tr>
+            <tr>
+              <td class="cat-name">Service / Staff</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:8%;background:#27ae60;"></div></div></td>
+              <td class="cat-pct">8%</td>
+              <td class="cat-count">~31 reviews</td>
+            </tr>
+            <tr>
+              <td class="cat-name">Price / Value</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:3%;background:#e67e22;"></div></div></td>
+              <td class="cat-pct">3%</td>
+              <td class="cat-count">~12 reviews</td>
+            </tr>
+            <tr>
+              <td class="cat-name">Wait Time</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:2%;background:#e74c3c;"></div></div></td>
+              <td class="cat-pct">2%</td>
+              <td class="cat-count">~8 reviews</td>
+            </tr>
+            <tr>
+              <td class="cat-name">Order Accuracy</td>
+              <td class="cat-bar-wrap"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:0%;background:#95a5a6;"></div></div></td>
+              <td class="cat-pct">0%</td>
+              <td class="cat-count">0 reviews</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:6px;font-size:0.88em;color:#888;">Food Quality at 71% is not just the top category — it is the dominant driver of both positive and negative reviews. When food is great, Rinata gets 5 stars. When food fails, Rinata gets 1 star. Service and atmosphere are supporting actors.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ DAY OF WEEK ══════════════════ -->
+    <div class="section" id="dayofweek">
+      <div class="section-eyebrow ey-purple">03 &nbsp;—&nbsp; Patterns Over Time</div>
+      <div class="section-title">Day-of-Week Analysis</div>
+      <p class="section-intro">Review dates were extracted and converted to days of the week across all 597 reviews. This reveals a clear operational pattern: <strong>quality goes down as volume goes up.</strong></p>
+
+      <div class="card">
+        <div class="card-title">Performance by Day of Week</div>
+        <table class="day-table">
+          <thead>
+            <tr><th>Day</th><th>Reviews</th><th>Avg Rating</th><th>Negative</th><th>Signal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Wednesday</strong></td>
+              <td>25</td>
+              <td>
+                <strong class="best">4.76</strong>
+                <span class="rating-bar"><span class="rating-fill" style="width:95.2%"></span></span>
+              </td>
+              <td class="best">0</td>
+              <td><span class="day-tag dt-green">Best rating</span><span class="day-tag dt-green">Zero complaints</span></td>
+            </tr>
+            <tr>
+              <td><strong>Tuesday</strong></td>
+              <td>99</td>
+              <td>
+                <strong class="best">4.72</strong>
+                <span class="rating-bar"><span class="rating-fill" style="width:94.4%"></span></span>
+              </td>
+              <td class="best">0</td>
+              <td><span class="day-tag dt-green">Zero complaints</span></td>
+            </tr>
+            <tr>
+              <td>Thursday</td>
+              <td>83</td>
+              <td>4.73 <span class="rating-bar"><span class="rating-fill" style="width:94.6%"></span></span></td>
+              <td>3</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Friday</td>
+              <td>65</td>
+              <td>4.71 <span class="rating-bar"><span class="rating-fill" style="width:94.2%"></span></span></td>
+              <td>2</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><strong>Saturday</strong></td>
+              <td>97</td>
+              <td>4.62 <span class="rating-bar"><span class="rating-fill" style="width:92.4%"></span></span></td>
+              <td><strong class="worst">6</strong></td>
+              <td><span class="day-tag dt-red">Most complaints</span></td>
+            </tr>
+            <tr>
+              <td>Monday</td>
+              <td>107</td>
+              <td>4.58 <span class="rating-bar"><span class="rating-fill" style="width:91.6%"></span></span></td>
+              <td>4</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><strong>Sunday</strong></td>
+              <td><strong>121</strong></td>
+              <td>
+                <strong class="worst">4.55</strong>
+                <span class="rating-bar"><span class="rating-fill" style="width:91.0%"></span></span>
+              </td>
+              <td>5</td>
+              <td><span class="day-tag dt-red">Busiest day</span><span class="day-tag dt-red">Lowest rating</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Wednesday has the highest quality scores and the least traffic. Sunday has the most traffic and the lowest scores. The kitchen and staff that deliver perfection on a quiet Tuesday are being overwhelmed on Saturday and Sunday. This is an operations problem — not a food problem.</p>
+        <div class="quote">
+          <span class="stars">KEY INSIGHT</span>
+          The 0.21 gap between Wednesday (4.76) and Sunday (4.55) is the entire distance between a restaurant people recommend and one people warn friends about. The gap is operational — it closes with staffing, not with recipes.
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════ STRENGTHS ══════════════════ -->
+    <div class="section" id="strengths">
+      <div class="section-eyebrow ey-green">04 &nbsp;—&nbsp; Current State</div>
+      <div class="section-title">What Rinata Is Getting Right</div>
+      <p class="section-intro">These are patterns that repeat across hundreds of independently written reviews. When the same thing gets said over and over by people who have never met, it is real.</p>
+
+      <div class="card s">
+        <div class="card-title">The Food Is the Business <span class="pill p-green">Core Asset</span></div>
+        <p><strong>71% of all written reviews are primarily about food quality.</strong> Customers come for the food, write about the food, and their loyalty is anchored to the food. That is exactly where you want to be. The reviews that praise Rinata most strongly describe authentic Italian cooking done with consistency and care.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "Rinata is one of the best Italian spots in town! It is worlds better than Bar La Grassa downtown."
+        </div>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "I love this place, I order about 2x a week but I wanted to tell you tonight it was way better than normal. Whoever is working tonight deserves some credit."
+        </div>
+        <p>The Bar La Grassa comparison is notable — customers are benchmarking Rinata against one of Minneapolis's most recognized Italian restaurants and saying Rinata wins. That does not happen by accident.</p>
+      </div>
+
+      <div class="card s">
+        <div class="card-title">Atmosphere Drives Destination Dining <span class="pill p-green">16% of Reviews</span></div>
+        <p>Atmosphere is the second most-reviewed category at 61 reviews. The words that repeat: <em>bohemian, cozy, romantic, intimate, beautiful.</em> Customers are choosing Rinata for anniversaries, Valentine's Day, and date nights. That is not a neighborhood restaurant people stumble into — that is a destination.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "My husband and I were looking for a place to celebrate our wedding anniversary and without a doubt it was our best choice. I loved the place, the bohemian feel, the super delicious food."
+        </div>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "Talk about a hidden gem. This place was lovely, from the ambiance to the food and service."
+        </div>
+      </div>
+
+      <div class="card s">
+        <div class="card-title">A Named Staff Member Generating Loyalty <span class="pill p-green">Staff Quality</span></div>
+        <p>One reviewer named a server — <strong>Ceno</strong> — by name. In 597 reviews, that is rare. Named reviews mean a staff member's performance was so distinctly above expectations that the customer felt compelled to identify them specifically. That quality of hospitality directly generates repeat visits.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "Ceno (unsure of spelling) was amazing, genuine and a true professional. We are definitely coming back."
+        </div>
+      </div>
+
+      <div class="card s">
+        <div class="card-title">The Date Night Menu Gets Called Out Specifically <span class="pill p-green">Product Praise</span></div>
+        <p>Multiple reviewers named the date night menu unprompted and praised the value at roughly $25 per person. When customers go out of their way to name a specific menu offering in a review, they are doing your marketing for you. That product has an audience and that audience is talking.</p>
+      </div>
+
+      <div class="card s">
+        <div class="card-title">Zero Online Order Accuracy Complaints <span class="pill p-green">Clean Category</span></div>
+        <p>Across 388 analyzed reviews, AI found <strong>zero complaints about online order accuracy</strong>. In the DoorDash and Uber Eats era — where wrong orders and missing items are among the most common restaurant complaints — this is a meaningful operational win. That system is working quietly.</p>
+      </div>
+
+      <div class="card s">
+        <div class="card-title">4.64 Across 597 Reviews Is Sustained Goodwill <span class="pill p-green">Brand Equity</span></div>
+        <p>A 4.64 average across 597 reviews is not luck. Each was written by a separate person on a separate day. The rating has been earned and re-earned hundreds of times over years. That is the kind of reputation that takes years to build and represents real business value — whether you are operating, growing, or someday selling.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ WEAKNESSES ══════════════════ -->
+    <div class="section" id="weaknesses">
+      <div class="section-eyebrow ey-red">05 &nbsp;—&nbsp; What Needs Attention</div>
+      <div class="section-title">What Is Hurting the Business Right Now</div>
+      <p class="section-intro">These are not one-off bad nights. They are recurring signals across multiple reviewers. An experienced operator seeing this data would treat every one of these as requiring a direct response — not a conversation for later.</p>
+
+      <div class="card warn">
+        <div class="card-title">⚠️ Two Food Safety Events Are Documented <span class="pill p-red">Critical</span></div>
+        <div class="warn-box">
+          <div class="w-title">This is the most serious finding in the dataset.</div>
+          <p>The AI classified these as high-urgency because the content describes specific health events — not just dissatisfaction. One describes being served rancid shellfish. Another describes multiple people becoming ill after a meal.</p>
+        </div>
+        <div class="quote warn-q">
+          <span class="stars">★★ (2 Stars)</span>
+          "They were rancid. Smelled and tasted absolutely rotten." [referring to mussels]
+        </div>
+        <div class="quote warn-q">
+          <span class="stars">★★ (2 Stars)</span>
+          "Couple of us felt sick day after."
+        </div>
+        <p>This is not a rating problem — it is a health and liability problem. Sourcing standards and kitchen protocols for high-risk items need to be reviewed immediately.</p>
+      </div>
+
+      <div class="card w">
+        <div class="card-title">Weekend Quality Visibly Slips Under Volume <span class="pill p-red">Operational</span></div>
+        <p>Saturday has the most negative reviews of any day — 6 — despite being only the 3rd busiest day. Sunday is busiest at 121 reviews and has the lowest average rating at 4.55. The kitchen and floor that delivers a 4.76 experience on Wednesday is being overwhelmed on Saturday and Sunday. This is a staffing and capacity problem, not a food problem.</p>
+      </div>
+
+      <div class="card w">
+        <div class="card-title">A Solo Diner Was Turned Away Three Consecutive Times <span class="pill p-red">Service Pattern</span></div>
+        <div class="quote warn-q">
+          <span class="stars">★★★ (3 Stars)</span>
+          "The third time I have dined there arriving at 5:30 and no one else is there. I am a solo diner and each of the three times the hostess was very inhospitable and reluctant to seat me."
+        </div>
+        <p>One visit is an off night. Three consecutive experiences with the same guest is a documented front-of-house behavior pattern. Solo diners are a reliable revenue segment — local regulars, professionals eating alone — and they are disproportionately likely to leave reviews.</p>
+      </div>
+
+      <div class="card w">
+        <div class="card-title">Kitchen Inconsistency Is the Source of 1-Star Reviews <span class="pill p-red">Quality Control</span></div>
+        <p>The most damaging negative reviews are almost entirely about food that was bad on a specific visit — and several describe it in stark terms. The pattern is inconsistency, not consistent mediocrity. A 1-star review from a customer who expected more based on prior visits breaks trust with your most loyal audience.</p>
+        <div class="quote warn-q">
+          <span class="stars">★ (1 Star)</span>
+          "This was hands-down, the worst food I've had in the cities since I've lived here — 13 years."
+        </div>
+        <div class="quote warn-q">
+          <span class="stars">★ (1 Star)</span>
+          "I don't know who they have cooking but he needs to be fired. My meatballs were not done."
+        </div>
+      </div>
+
+      <div class="card w">
+        <div class="card-title">Parking and Findability Are Costing Covers <span class="pill p-gold">Friction</span></div>
+        <p>Multiple reviewers independently mentioned difficulty finding the restaurant or navigating parking. The customers writing these reviews loved Rinata enough to push through the friction. The ones who didn't push through are not in this dataset — they went somewhere else and left no review at all.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "Parking was a bit of a trick. Found space on the crossroad."
+        </div>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "It was a little hard to find initially, but once inside we were greeted immediately..."
+        </div>
+      </div>
+
+      <div class="card w">
+        <div class="card-title">A Wet Tile Floor Was Flagged as a Safety Hazard <span class="pill p-gold">Facility</span></div>
+        <p>One reviewer — who gave 5 stars — specifically flagged a wet tile floor as a safety hazard. This is the kind of detail that gets noticed only when you read every review systematically. It is minor until it isn't. Worth a direct conversation with the facilities team.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════ GROW ══════════════════ -->
+    <div class="section" id="grow">
+      <div class="section-eyebrow ey-green">06 &nbsp;—&nbsp; Strategy</div>
+      <div class="section-title">Ways to Grow</div>
+      <p class="section-intro">These are direct extensions of what the review data already shows. Customers are telling you exactly what they want more of — the opportunity is to deliver it intentionally.</p>
+
+      <div class="card g">
+        <div class="card-title">1. Fill Wednesday — Your Best Day That Nobody Knows About <span class="pill p-green">Immediate</span></div>
+        <p>Wednesday has a 4.76 average rating, zero negative reviews, and only 25 total reviews — the lightest traffic of any day. Your kitchen and service team are performing at their absolute best on a day when the dining room is nearly empty. That is unused capacity at peak quality.</p>
+        <p><strong>The play:</strong> A Wednesday special — date night prix fixe, a featured pasta, or a standing regulars offer — that gives people a specific reason to come in mid-week. You are not creating something new; you are filling the room on the day the restaurant is already running perfectly.</p>
+      </div>
+
+      <div class="card g">
+        <div class="card-title">2. "Hidden Gem" Is a Marketing Position, Not Just a Compliment <span class="pill p-green">Brand</span></div>
+        <p>Multiple customers, writing independently, used the phrase "hidden gem" without being prompted. That is a spontaneous consensus — not one review, multiple. It means Rinata's location and presentation reads as undiscovered. In a dining market full of loud, over-branded restaurants, that understated authenticity is a genuine competitive edge.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "Talk about a hidden gem. This place was lovely, from the ambiance to the food and service."
+        </div>
+        <p><strong>The play:</strong> Lean into it deliberately. Social content framed around discovery. Local press pitches. The authenticity customers feel is what makes the story work — and you cannot manufacture it, but you can amplify it.</p>
+      </div>
+
+      <div class="card g">
+        <div class="card-title">3. Formalize Private Dining and Event Revenue <span class="pill p-green">Near-Term Revenue</span></div>
+        <p>Reviewers are already choosing Rinata for anniversaries, Valentine's Day, and date nights without being prompted. That is a private events business waiting to be structured. Rehearsal dinners, corporate meals, milestone celebrations — these are guaranteed revenue on nights you can plan around.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "My husband and I were looking for a place to celebrate our wedding anniversary and without a doubt it was our best choice."
+        </div>
+        <p><strong>The play:</strong> A private dining page on your website with a set menu and contact form. No build-out required. You already have the room, the food, and the reputation for exactly this type of experience.</p>
+      </div>
+
+      <div class="card g">
+        <div class="card-title">4. Turn Your Most Loyal Customers Into a Revenue Anchor <span class="pill p-green">Retention</span></div>
+        <p>One reviewer mentioned ordering from Rinata <strong>twice per week.</strong> That is not casual dining — that is a customer anchoring meaningful weekly spending at your restaurant. Without a formal recognition system, that customer has no structural reason to stay loyal if anything changes.</p>
+        <div class="quote">
+          <span class="stars">★★★★★</span>
+          "I love this place, I order about 2x a week but I wanted to tell you tonight it was way better than normal."
+        </div>
+        <p><strong>The play:</strong> Identify your top 20–30 regulars by order history. Give them something that acknowledges the relationship — a standing reservation priority, a dish on the house at a milestone. These customers are loyal to being known. Make sure they are.</p>
+      </div>
+
+      <div class="card g">
+        <div class="card-title">5. Use Review Responses as a Public Trust Signal <span class="pill p-green">Low Effort, High Return</span></div>
+        <p>Owner responses to Google reviews are visible to every future reader who looks at Rinata before deciding whether to book. Right now, responses are rare across 597 reviews. A professional, direct response to each of the 8 high-urgency reviews — and brief thank-yous on recent 5-stars — accomplishes more than most marketing campaigns at zero cost.</p>
+        <p><strong>The play:</strong> 30 minutes per week. Negative reviews first. The return is disproportionate: one thoughtful response to a 1-star review can be what converts the next reader who sees it.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ MAINTAIN ══════════════════ -->
+    <div class="section" id="maintain">
+      <div class="section-eyebrow ey-blue">07 &nbsp;—&nbsp; Strategy</div>
+      <div class="section-title">How to Maintain It</div>
+      <p class="section-intro">A 4.64 rating took years to build. These are the specific things keeping it there — and what it takes to protect them.</p>
+
+      <div class="card m">
+        <div class="card-title">1. Food Consistency Is Non-Negotiable</div>
+        <p>71% of all reviews are primarily about food quality. The rating lives or dies on what comes out of the kitchen. The high-urgency negative reviews are almost entirely about the kitchen failing on a specific visit. Food quality is not just the biggest strength — it is the biggest single point of failure. Great atmosphere and excellent service will not overcome a bad plate.</p>
+        <p><strong>What to protect:</strong> Recipe consistency, ingredient sourcing standards, and a quality check before plates leave the kitchen. A simple pre-service checklist for key dishes is not bureaucracy — it's insurance on your rating.</p>
+      </div>
+
+      <div class="card m">
+        <div class="card-title">2. Know Who Your Key Staff Are and Keep Them</div>
+        <p>Ceno was named by a reviewer and is directly generating repeat visits. Staff like this are revenue drivers, not just employees. The cost of replacing someone who produces that quality of experience is higher than the cost of keeping them happy — schedule flexibility, recognition, a path forward.</p>
+      </div>
+
+      <div class="card m">
+        <div class="card-title">3. Actively Manage the Saturday / Sunday Experience</div>
+        <p>Your two highest-volume days have your lowest ratings and most negative reviews. Saturday alone accounts for 6 of 20 negative reviews. This is a classic volume-quality squeeze. Staffing levels on Saturday and Sunday should not mirror Tuesday — the load is not the same. Consider: additional kitchen coverage, a simplified weekend menu, or an explicit table pacing policy so the floor does not get overwhelmed at once.</p>
+      </div>
+
+      <div class="card m">
+        <div class="card-title">4. Fix the Pre-Arrival Friction</div>
+        <p>Multiple 5-star reviewers mentioned difficulty finding the restaurant and limited parking. A precisely placed Google Maps pin, updated directions in reservation confirmations, and a small entrance sign removes this friction entirely. Low cost — directly addresses a repeated pain point from your happiest customers.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ RISK ══════════════════ -->
+    <div class="section" id="risk">
+      <div class="section-eyebrow ey-red">08 &nbsp;—&nbsp; Strategy</div>
+      <div class="section-title">What Could Take It Down</div>
+      <p class="section-intro">These are real risks sourced directly from the review data — not theoretical scenarios. Every item below has at least one documented signal in the 597 reviews.</p>
+
+      <div class="card r">
+        <div class="card-title">1. A Food Safety Incident <span class="pill p-red">Critical</span></div>
+        <div class="warn-box">
+          <div class="w-title">This already happened once — and is documented publicly.</div>
+          <p>Two reviews describe serious food incidents: rancid shellfish served to a guest, and multiple people sick after a meal. These are not 1-star reviews about slow service — these are food safety events. They are public and they are findable by any future customer who reads the reviews carefully.</p>
+        </div>
+        <p>A single food safety incident that goes viral — or gets picked up by local media — can wipe years of 5-star goodwill rapidly. Health department involvement makes it structural. This is the highest-consequence risk in the dataset.</p>
+      </div>
+
+      <div class="card r">
+        <div class="card-title">2. Kitchen Inconsistency at Scale <span class="pill p-red">High Risk</span></div>
+        <p>Several high-urgency reviews describe the same visit going differently than expected — the food that was great last time was bad this time. Inconsistency is more damaging than consistent mediocrity because it breaks trust with repeat customers. If kitchen staff turnover increases without management awareness, the rating slides — and slides fast, because food quality is 71% of what customers review.</p>
+      </div>
+
+      <div class="card r">
+        <div class="card-title">3. Solo Diner Discrimination Becoming a Known Pattern <span class="pill p-red">High Risk</span></div>
+        <p>One reviewer documented three consecutive poor experiences as a solo diner. Three documented incidents from the same person is a pattern. Solo diners represent a meaningful share of weeknight restaurant traffic, and they are disproportionately likely to leave reviews because they have no one to talk to at the table. If this becomes a known reputation, you lose a segment of reliable regulars.</p>
+      </div>
+
+      <div class="card r">
+        <div class="card-title">4. Key Staff Departure <span class="pill p-gold">Medium Risk</span></div>
+        <p>Service/Staff reviews are overwhelmingly positive — it is a silent strength that only becomes visible when it goes away. If Ceno, or whoever else is producing that quality of experience, leaves for a competitor offering better pay or scheduling, the 5-star service reviews quietly stop. The average dips before management notices why.</p>
+      </div>
+
+      <div class="card r">
+        <div class="card-title">5. Rating Drift on Peak Nights <span class="pill p-gold">Medium Risk</span></div>
+        <p>One reviewer specifically names Bar La Grassa downtown and says Rinata wins. That is a competitive signal — customers are cross-shopping. If Saturday quality continues slipping while a competitor improves, the "hidden gem" advantage erodes because the gem stops being as good on the nights when most people visit. The Saturday vs. Tuesday gap in the data is where that drift starts.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════ LEASE ══════════════════ -->
+    <div class="section" id="lease">
+      <div class="section-eyebrow ey-purple">09 &nbsp;—&nbsp; Decision Framework</div>
+      <div class="section-title">Selling the Lease</div>
+      <p class="section-intro">Here is what the current data means in the context of a going-concern sale. Every point below is grounded in what the reviews show — not general restaurant industry advice.</p>
+
+      <div class="pro-con">
+        <div class="pro-col">
+          <h4>Reasons to Sell Now</h4>
+          <ul>
+            <li><strong>Peak goodwill position.</strong> A 4.64 rating with 597 reviews and 78% 5-stars is as strong a reputation as Rinata's review history shows. Buyers pay for reputation — and right now, Rinata's reputation is at its documented ceiling.</li>
+            <li><strong>The AI analysis is a selling asset.</strong> The complete dataset — categorized reviews, day-of-week patterns, urgency flags — is a documented business intelligence package most restaurants do not have. It makes the asking price more defensible.</li>
+            <li><strong>Food safety exposure exists.</strong> Two public reviews describe serious food incidents. Selling transfers that liability. Once you are out, a future incident is not your exposure.</li>
+            <li><strong>The narrative is clean right now.</strong> A well-reviewed, beloved neighborhood Italian restaurant is a strong sale story. A restaurant being sold during a rating decline or a publicized incident is not.</li>
+            <li><strong>Goodwill transfers at a premium today.</strong> The documented review history — 597 reviews, verified over years — is a verifiable asset. That premium is available now. It may not be in 18 months if the Saturday quality issues compound.</li>
+          </ul>
+        </div>
+        <div class="con-col">
+          <h4>Reasons to Keep It</h4>
+          <ul>
+            <li><strong>The growth plays are unrealized.</strong> Wednesday is nearly empty with the highest quality scores. Private dining is informal. The regulars program does not exist yet. Selling now means the buyer captures that upside, not you.</li>
+            <li><strong>Goodwill does not transfer cleanly.</strong> The 4.64 rating belongs to the current experience — the kitchen, the staff, the specific feel. A buyer who changes any of those starts from zero on the reputation side, even if the lease and name transfer.</li>
+            <li><strong>The 2x-per-week regulars are loyal to the experience.</strong> They leave when the experience changes. A buyer gets the lease, not those customers.</li>
+            <li><strong>Operating leverage is still building.</strong> If the food safety issues are addressed and Saturday/Sunday quality tightens, the rating likely improves. A stronger rating in 12–18 months commands a higher asking price.</li>
+            <li><strong>Wednesday alone is a white space.</strong> 25 reviews vs. 121 on Sunday at the highest quality scores. A single targeted promotion could add meaningful weekly revenue at virtually no cost — and is not priced into a current sale.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bottom-box">
+        <h4>Bottom Line</h4>
+        <p>The data does not make the sell decision for you — but it informs it. If the goal is maximum sale value, timing is favorable right now: strong rating, clean story, no ongoing public incident. If the goal is maximum lifetime return, there is meaningful upside left to capture. The honest read: Rinata is <em>sellable at a premium today</em> — and potentially worth more in 12–18 months if the Saturday quality issue closes and 2–3 of the growth plays are executed. Those are not mutually exclusive outcomes. A well-run next 12 months makes both the business stronger and a future sale easier to price.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════ MANAGEMENT SUMMARY ══════════════════ -->
+    <div class="section" id="management">
+      <div class="section-eyebrow ey-teal">10 &nbsp;—&nbsp; Internal Memo</div>
+      <div class="section-title">Management Summary</div>
+      <p class="section-intro">A distilled narrative from the full analysis — written for anyone who needs the complete picture without reading every section above.</p>
+
+      <div class="narrative-block">
+        <h3>What the Reviews Tell Us</h3>
+        <ul>
+          <li>Rinata has 597 Google reviews averaging 4.64 stars — 78% of which are 5-star, and 90% of which carry positive sentiment. This is a strong, sustained track record across years of real customers.</li>
+          <li>388 reviews contained written text and were analyzed by AI. The dominant category by a wide margin is Food Quality at 71% — this restaurant lives or dies on what comes out of the kitchen, and most of the time, the kitchen is winning.</li>
+          <li>The day-of-week data reveals a clear quality gap: Tuesday and Wednesday have zero negative reviews and the highest average ratings. Saturday has the most complaints of any day. Volume and quality are moving in opposite directions on peak nights.</li>
+          <li>Eight reviews were flagged as high-urgency — including two describing food safety incidents. These require immediate operational attention, not just a review response.</li>
+        </ul>
+      </div>
+
+      <div class="narrative-block">
+        <h3>What Is Working Well</h3>
+        <ul>
+          <li>The food is genuinely good. Customers are comparing Rinata favorably to established Minneapolis Italian restaurants without being asked to. That level of unprompted comparison reflects a real quality advantage.</li>
+          <li>The atmosphere is driving destination decisions — anniversaries, date nights, special occasions. Reviewers use words like "romantic" and "bohemian" consistently. This is a differentiated positioning in a market full of generic dining rooms.</li>
+          <li>Service/Staff reviews are overwhelmingly positive. One server, Ceno, was specifically named for professionalism and warmth — the kind of mention that drives return visits.</li>
+          <li>Online order accuracy has produced zero complaints across 388 reviews. In the current third-party delivery environment, that is a genuine operational achievement.</li>
+          <li>The date night menu is being praised by name. A specific product getting called out in reviews is word-of-mouth marketing that cannot be bought.</li>
+        </ul>
+      </div>
+
+      <div class="narrative-block">
+        <h3>What Needs Attention</h3>
+        <ul>
+          <li><strong>Food safety — immediate:</strong> Two reviews describe what appear to be food safety incidents. One mentions rancid shellfish. Another describes multiple people becoming ill the day after dining. Kitchen protocols for high-risk items must be reviewed before anything else on this list.</li>
+          <li><strong>Weekend operations:</strong> Saturday has the most negative reviews of any day. Sunday has the lowest average rating and the highest volume. The restaurant is not delivering the same experience on its busiest days that it delivers on its quietest. This is a staffing and process problem, not a food problem.</li>
+          <li><strong>Solo diner treatment:</strong> One guest documented being made to feel unwelcome three consecutive visits as a solo diner. The front-of-house team needs a direct conversation about solo diner policy.</li>
+          <li><strong>Kitchen consistency:</strong> The most damaging 1-star reviews describe food that was bad on a specific visit — often from customers who expected better based on previous experience. Inconsistency damages repeat-visit loyalty more than consistent mediocrity.</li>
+          <li><strong>Pre-arrival friction:</strong> Multiple 5-star reviewers flagged difficulty finding the restaurant and limited parking. The customers who couldn't find it didn't leave reviews.</li>
+        </ul>
+      </div>
+
+      <div class="narrative-block">
+        <h3>Day-of-Week Patterns — What They Mean Operationally</h3>
+        <ul>
+          <li>Wednesday (4.76 avg, 0 negative, 25 reviews) and Tuesday (4.72 avg, 0 negative, 99 reviews) are your best-performing days. The kitchen is not being overwhelmed, service has time to be attentive, and the result is the experience Rinata is capable of delivering.</li>
+          <li>Sunday (4.55 avg, 5 negative, 121 reviews) and Saturday (4.62 avg, 6 negative, 97 reviews) are where quality slips. The same team producing perfection on Tuesday is being stretched on Saturday. The fix is operational — more coverage or less menu complexity on peak nights.</li>
+          <li>Wednesday in particular is an opportunity: highest quality scores, lowest traffic, zero complaints. A targeted Wednesday promotion fills the room on the day the restaurant is already performing at its best.</li>
+          <li>The Monday volume (107 reviews) with 4 negative reviews suggests Monday is also beginning to strain under load — worth watching as a leading indicator before it reaches Saturday levels.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PRIORITY ACTIONS ══════════════════ -->
+    <div class="section" id="actions">
+      <div class="section-eyebrow ey-gold">11 &nbsp;—&nbsp; Action Plan</div>
+      <div class="section-title">Priority Actions — In Order of Urgency</div>
+      <p class="section-intro">Every action below is a direct response to a specific, documented signal from the 597 reviews. Nothing here is general restaurant advice.</p>
+
+      <div class="card data-c">
+        <div class="action-list">
+          <div class="action-row">
+            <div class="action-num" style="background:#c0392b;">1</div>
+            <div class="action-body">
+              <div class="action-title">Investigate the two food safety reviews immediately</div>
+              <div class="action-desc">Two reviews describe rancid shellfish and post-meal illness. Review sourcing, storage, and kitchen protocols for high-risk items. This is a health and liability matter — not a ratings matter. It needs to be treated that way first.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num" style="background:#c0392b;">2</div>
+            <div class="action-body">
+              <div class="action-title">Brief the front-of-house team on solo diner policy</div>
+              <div class="action-desc">One guest was treated poorly as a solo diner on three consecutive visits. A 15-minute conversation with the host team costs nothing and closes a documented, recurring gap in hospitality.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">3</div>
+            <div class="action-body">
+              <div class="action-title">Add Saturday and Sunday kitchen coverage — or simplify the peak-night menu</div>
+              <div class="action-desc">Saturday has the most negative reviews of any day. Quality is measurably lower when volume is highest. The fix is either more support or less complexity on those nights. One of those two changes needs to happen before next Saturday.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">4</div>
+            <div class="action-body">
+              <div class="action-title">Respond to all 8 high-urgency Google reviews</div>
+              <div class="action-desc">Every future customer who reads those reviews will also see how management responded. Right now they see nothing. A professional, non-defensive response converts a public liability into a public demonstration of accountability.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">5</div>
+            <div class="action-body">
+              <div class="action-title">Fix the Google Maps pin and add parking directions to reservation confirmations</div>
+              <div class="action-desc">Multiple 5-star reviewers mentioned difficulty finding the restaurant. The customers who didn't make it through that friction are not in this dataset — they went somewhere else. This is a free fix that removes a documented barrier.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">6</div>
+            <div class="action-body">
+              <div class="action-title">Launch a Wednesday promotion and track it</div>
+              <div class="action-desc">Wednesday: 4.76 average, zero negative reviews, lightest traffic of any day. Fill the room on your best-performing day. A weekly special, a date night offer, or a regulars-only incentive — any of these turns the highest-quality window of the week into a revenue driver.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">7</div>
+            <div class="action-body">
+              <div class="action-title">Identify and recognize your top regulars</div>
+              <div class="action-desc">At least one customer orders twice a week. Those customers are not loyal to the name — they are loyal to being known. A simple list of your top 20–30 regulars, treated with intention, anchors meaningful weekly revenue against any future disruption.</div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">8</div>
+            <div class="action-body">
+              <div class="action-title">Post a private dining option on your website</div>
+              <div class="action-desc">Reviewers are already choosing Rinata for anniversaries and milestone occasions without being prompted. Formalizing a private dining page with a set menu and booking contact captures revenue from demand that already exists.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════ AI ADVANTAGE ══════════════════ -->
+    <div class="section" id="ai">
+      <div class="section-eyebrow ey-purple">12 &nbsp;—&nbsp; Why This Matters</div>
+      <div class="section-title">What AI Found That You Cannot Find Manually</div>
+      <p class="section-intro">This section exists to make the point directly: none of these findings are available from the star rating. Every one of them required reading and analyzing all 597 reviews — something that would take a team of people days to do, and that AI did in minutes.</p>
+
+      <div class="ai-grid">
+        <div class="ai-item">
+          <span class="ai-icon">📅</span>
+          <div class="ai-title">The Day-of-Week Quality Gap</div>
+          <p>Wednesday scores 4.76. Sunday scores 4.55. This pattern only becomes visible when you tag every review by day of the week and run the numbers across the full dataset. Without AI, this correlation is invisible — and so is the Wednesday opportunity and the Saturday risk.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">🚨</span>
+          <div class="ai-title">Two Food Safety Events</div>
+          <p>The AI classified these as high-urgency based on content — not star rating alone. One of these reviews is a 2-star, easy to scan past. The other describes a group illness. A human reading 597 reviews casually would almost certainly miss at least one. The AI flags both.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">🧍</span>
+          <div class="ai-title">The Solo Diner Pattern</div>
+          <p>One customer visited three times and documented the same front-of-house experience each time. That pattern only emerges when you look across the full review history. In isolation, each visit reads as a single complaint. Together, they are a documented behavior problem.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">✅</span>
+          <div class="ai-title">A Zero-Complaint Category</div>
+          <p>Out of 388 analyzed reviews, AI found zero complaints about online order accuracy. You would never notice the absence of a problem — only a system looking for it can confirm it is not there. That clean category is a real operational achievement worth knowing about.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">👤</span>
+          <div class="ai-title">A Named Staff Member</div>
+          <p>Ceno was named by a reviewer across 388 documents. AI surfaced it immediately. Without systematic analysis, that signal — a staff member generating named loyalty and repeat visits — stays buried in a wall of text that no one reads from beginning to end.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">💬</span>
+          <div class="ai-title">Spontaneous Consensus Language</div>
+          <p>"Hidden gem" was used by multiple reviewers writing independently. AI identifies this kind of phrase repetition across the dataset. A human reader might notice it once; only systematic analysis reveals it as a pattern — and a marketing position waiting to be used.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">🏆</span>
+          <div class="ai-title">A Competitor Named — and Beaten</div>
+          <p>One reviewer specifically named Bar La Grassa and said Rinata is better. AI surfaced the competitive comparison as a signal. That single mention tells you customers are cross-shopping, that Rinata is winning that comparison, and that the competitive advantage is real and publicly documented.</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon">📊</span>
+          <div class="ai-title">Sentiment by Category, Not Just Overall</div>
+          <p>The overall 90% positive sentiment hides important detail. Service/Staff reviews are nearly all positive — a silent strength. Food Quality reviews contain almost every 1-star — the single point of failure. The overall rating blends these. AI separates them so you know where to protect and where to act.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ METHODOLOGY ══════════════════ -->
+    <div class="section" id="methodology">
+      <div class="section-eyebrow" style="color:#7f8c8d;">13 &nbsp;—&nbsp; How This Was Built</div>
+      <div class="section-title">Methodology</div>
+      <p class="section-intro">Every finding in this report came from a structured, repeatable process — not manual reading. This is what was built and how it works.</p>
+
+      <div class="method-steps">
+        <div class="method-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Scraping</div>
+          <div class="step-desc">Python + Playwright automated browser scrolled through Rinata's Google Maps page and extracted all 597 reviews — text, star rating, date, and reviewer ID.</div>
+        </div>
+        <div class="method-step">
+          <div class="step-num">2</div>
+          <div class="step-title">Cleaning</div>
+          <div class="step-desc">Pandas removed duplicates, converted relative dates ("3 weeks ago") to calendar dates, derived day-of-week, and standardized all fields.</div>
+        </div>
+        <div class="method-step">
+          <div class="step-num">3</div>
+          <div class="step-title">AI Categorization</div>
+          <div class="step-desc">Each of the 388 written reviews was sent to Claude AI, which assigned: primary category, sentiment, urgency, confidence, and a one-line summary. Zero human reads required.</div>
+        </div>
+        <div class="method-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Analysis &amp; Report</div>
+          <div class="step-desc">Python aggregated the labeled data into day-of-week tables, category breakdowns, and urgency lists. Claude AI wrote the narrative sections from structured data summaries.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <div class="card-title">Data Source &amp; Limitations</div>
+        <p>Source: Google Maps public reviews for Rinata Restaurant, Minneapolis. Collected May 2026. 597 total reviews; 388 contained written text and were classified by AI. Date approximations are derived from relative timestamps ("3 weeks ago") and carry a margin of error of ±3–7 days. Category assignments reflect AI interpretation — the full labeled dataset is available in the accompanying Excel workbook (<em>Rinata_Review_Analysis.xlsx</em>) for direct validation. When making significant operational decisions, cross-reference the raw review text in that file.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="page-footer">
+    Rinata Restaurant &nbsp;·&nbsp; Complete Intelligence Report &nbsp;·&nbsp; 597 Google Reviews Analyzed by AI &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Internal Use Only
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

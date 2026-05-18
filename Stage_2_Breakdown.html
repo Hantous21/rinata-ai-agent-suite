@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata Project — Stage 2 Breakdown</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #2c2c2c; line-height: 1.7; }
+    .cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: white; padding: 80px 60px; }
+    .cover h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+    .cover h2 { font-size: 1.2em; font-weight: 300; opacity: 0.8; margin-bottom: 20px; }
+    .cover .meta { font-size: 0.9em; opacity: 0.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 30px 80px; }
+    h2.section-title { font-size: 1.5em; color: #0f3460; border-left: 5px solid #e94560; padding-left: 14px; margin: 50px 0 18px; }
+    h3 { font-size: 1.1em; color: #1a1a2e; margin: 28px 0 8px; }
+    h4 { font-size: 0.95em; color: #444; margin: 18px 0 6px; font-weight: 600; }
+    p { margin-bottom: 12px; }
+    .card { background: white; border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .card.highlight { border-left: 4px solid #e94560; }
+    .card.concept { border-left: 4px solid #0f3460; }
+    .card.code-card { border-left: 4px solid #2ecc71; }
+    .card.debug { border-left: 4px solid #f39c12; }
+    .card.result { border-left: 4px solid #9b59b6; }
+    code { font-family: 'Consolas', monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.88em; color: #c0392b; }
+    pre { background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 0.88em; line-height: 1.6; margin: 14px 0; }
+    pre .comment { color: #6c7086; }
+    pre .keyword { color: #cba6f7; }
+    pre .string { color: #a6e3a1; }
+    pre .func { color: #89b4fa; }
+    .step-badge { display: inline-block; background: #e94560; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .debug-badge { display: inline-block; background: #f39c12; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .learn-box { background: #eaf4fb; border: 1px solid #aed6f1; border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 0.93em; }
+    .learn-box strong { color: #1a6fa0; }
+    .result-box { background: #f0fff4; border: 1px solid #a9dfbf; border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 0.93em; }
+    .result-box strong { color: #1e8449; }
+    .warning { background: #fff8e1; border-left: 4px solid #f39c12; padding: 12px 16px; border-radius: 4px; margin: 14px 0; font-size: 0.93em; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+    th { background: #0f3460; color: white; padding: 10px 14px; text-align: left; }
+    td { padding: 9px 14px; border-bottom: 1px solid #e5e5e5; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.95em; }
+    .checklist li::before { content: "✅ "; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+    .stat { background: white; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .stat .number { font-size: 2.2em; font-weight: 700; color: #0f3460; }
+    .stat .label { font-size: 0.85em; color: #777; margin-top: 4px; }
+    .divider { border: none; border-top: 1px solid #ddd; margin: 40px 0; }
+    .flow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+    .flow-box { background: #0f3460; color: white; padding: 8px 14px; border-radius: 6px; font-size: 0.85em; font-weight: 600; }
+    .flow-arrow { color: #e94560; font-weight: bold; font-size: 1.2em; }
+    .blocker { background: #fdecea; border-left: 4px solid #e74c3c; padding: 12px 16px; border-radius: 4px; margin: 14px 0; font-size: 0.93em; }
+    .blocker strong { color: #c0392b; }
+    .fix { background: #eafaf1; border-left: 4px solid #2ecc71; padding: 12px 16px; border-radius: 4px; margin: 14px 0; font-size: 0.93em; }
+    .fix strong { color: #1e8449; }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Rinata Feedback Intelligence System</h1>
+  <h2>Stage 2 — Google Reviews Scraper: Complete Breakdown</h2>
+  <div class="meta">Project: Rinata Restaurant &nbsp;|&nbsp; Date: May 2026 &nbsp;|&nbsp; Stage: 2 of 6</div>
+</div>
+
+<div class="container">
+
+  <!-- RESULTS FIRST -->
+  <h2 class="section-title">What We Accomplished</h2>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="number">597</div><div class="label">Reviews collected</div></div>
+    <div class="stat"><div class="number">388</div><div class="label">With written text</div></div>
+    <div class="stat"><div class="number">7</div><div class="label">Days of week tracked</div></div>
+  </div>
+
+  <div class="card result">
+    <span class="step-badge">Output</span>
+    <p>A CSV file at <code>output/raw_reviews.csv</code> with 597 rows and 8 columns, ready for Stage 3 cleaning.</p>
+    <table>
+      <tr><th>Column</th><th>Example value</th><th>What it means</th></tr>
+      <tr><td><code>reviewer_id</code></td><td>Reviewer_001</td><td>Anonymized reviewer identifier</td></tr>
+      <tr><td><code>rating</code></td><td>5</td><td>Star rating (1–5)</td></tr>
+      <tr><td><code>date_raw</code></td><td>3 weeks ago</td><td>Exactly as shown on Google</td></tr>
+      <tr><td><code>date_approx</code></td><td>2026-04-20</td><td>Converted to a real calendar date</td></tr>
+      <tr><td><code>day_of_week</code></td><td>Sunday</td><td>Day of week derived from date</td></tr>
+      <tr><td><code>review_text</code></td><td>WOW! Best Italian...</td><td>Full review text</td></tr>
+      <tr><td><code>has_owner_response</code></td><td>True/False</td><td>Whether management replied</td></tr>
+      <tr><td><code>owner_response</code></td><td></td><td>Management reply text</td></tr>
+    </table>
+    <div class="result-box">
+      <strong>Early insight:</strong> 466 out of 597 reviews (78%) are 5-star. Wednesday has only 25 reviews vs 65–121 on other days — possibly reflecting shorter operating hours or closure on some Wednesdays.
+    </div>
+  </div>
+
+
+  <!-- WHAT IS WEB SCRAPING -->
+  <h2 class="section-title">What Is Web Scraping?</h2>
+
+  <div class="card concept">
+    <p>Web scraping is the process of writing code that <strong>controls a web browser or sends HTTP requests</strong> to a website, reads the content of the page, and extracts structured data from it — automatically, at scale.</p>
+    <p>Think of it like having a very fast assistant who opens a browser, scrolls through hundreds of reviews, copies each one into a spreadsheet, and sends it to you — except the "assistant" is your Python script.</p>
+    <h4>When scraping is appropriate:</h4>
+    <ul style="margin-left:20px; margin-top:8px;">
+      <li>The data is publicly visible on the website</li>
+      <li>No official API exists (or the API is too limited)</li>
+      <li>You own or have a legitimate interest in the business being reviewed</li>
+      <li>You're not overloading the server with requests</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Key concept — Static vs. Dynamic pages:</strong><br>
+      Old websites sent the full HTML content when you loaded a page. Modern websites like Google Maps load a basic shell and then fill in the content using JavaScript after the page loads. This is why simple HTTP request scrapers don't work on Google Maps — you need a real browser that can execute JavaScript.
+    </div>
+  </div>
+
+
+  <!-- PLAYWRIGHT -->
+  <h2 class="section-title">What Is Playwright?</h2>
+
+  <div class="card concept">
+    <p>Playwright is a library developed by Microsoft that lets you <strong>control a real web browser from Python code</strong>. It can launch Chrome, Firefox, or WebKit (Safari's engine), navigate to URLs, click buttons, scroll pages, fill out forms, take screenshots, and read page content — all programmatically.</p>
+
+    <h4>The two modes we used:</h4>
+    <table>
+      <tr><th>Mode</th><th>What it means</th><th>When to use</th></tr>
+      <tr><td><strong>Headful</strong> (<code>headless=False</code>)</td><td>A visible browser window opens — you can watch it work</td><td>Debugging, learning, when you need to log in manually</td></tr>
+      <tr><td><strong>Headless</strong> (<code>headless=True</code>)</td><td>The browser runs invisibly in the background</td><td>Production automation, faster, no screen needed</td></tr>
+    </table>
+    <p>We used headful mode throughout Stage 2 so you could see exactly what the scraper was doing — this is best practice when building and debugging a new scraper.</p>
+  </div>
+
+  <div class="card code-card">
+    <h3>Core Playwright pattern</h3>
+    <pre><span class="keyword">from</span> playwright.sync_api <span class="keyword">import</span> sync_playwright
+
+<span class="keyword">with</span> sync_playwright() <span class="keyword">as</span> p:
+    browser = p.chromium.<span class="func">launch</span>(headless=<span class="keyword">False</span>)
+    context = browser.<span class="func">new_context</span>(viewport={<span class="string">"width"</span>: 1280, <span class="string">"height"</span>: 900})
+    page = context.<span class="func">new_page</span>()
+
+    page.<span class="func">goto</span>(<span class="string">"https://www.google.com/maps/..."</span>)
+    page.<span class="func">locator</span>(<span class="string">'button[aria-label*="Reviews"]'</span>).first.<span class="func">click</span>()
+    text = page.<span class="func">locator</span>(<span class="string">".wiI7pd"</span>).first.<span class="func">inner_text</span>()
+
+    browser.<span class="func">close</span>()</pre>
+    <h4>Key objects:</h4>
+    <table>
+      <tr><th>Object</th><th>What it is</th><th>Analogy</th></tr>
+      <tr><td><code>sync_playwright()</code></td><td>The Playwright engine — manages everything</td><td>The engine room of a ship</td></tr>
+      <tr><td><code>browser</code></td><td>A browser instance (Chrome)</td><td>The ship itself</td></tr>
+      <tr><td><code>context</code></td><td>An isolated browser session with its own cookies, storage</td><td>A separate cabin on the ship</td></tr>
+      <tr><td><code>page</code></td><td>A single browser tab</td><td>A window in the cabin</td></tr>
+      <tr><td><code>locator()</code></td><td>Finds elements on the page using CSS selectors</td><td>A specific seat number</td></tr>
+    </table>
+  </div>
+
+
+  <!-- CSS SELECTORS -->
+  <h2 class="section-title">CSS Selectors — How We Targeted Elements</h2>
+
+  <div class="card concept">
+    <p>A CSS selector is a pattern that identifies one or more HTML elements on a page. Playwright uses these to find and interact with specific parts of the page — like the review text, the star rating, or the "Reviews" tab button.</p>
+    <table>
+      <tr><th>Selector</th><th>What it targets</th><th>Used for</th></tr>
+      <tr><td><code>div.jftiEf</code></td><td>Any &lt;div&gt; with class "jftiEf"</td><td>Individual review cards</td></tr>
+      <tr><td><code>.wiI7pd</code></td><td>Any element with class "wiI7pd"</td><td>Review text content</td></tr>
+      <tr><td><code>.rsqaWe</code></td><td>Any element with class "rsqaWe"</td><td>Review date ("3 weeks ago")</td></tr>
+      <tr><td><code>button[aria-label*="Reviews"]</code></td><td>A &lt;button&gt; whose aria-label contains "Reviews"</td><td>The Reviews tab button</td></tr>
+      <tr><td><code>span[aria-label*="star"]</code></td><td>A &lt;span&gt; whose aria-label contains "star"</td><td>Star rating element</td></tr>
+      <tr><td><code>.CDe7pd</code></td><td>Any element with class "CDe7pd"</td><td>Owner response text</td></tr>
+    </table>
+    <div class="learn-box">
+      <strong>How to find selectors yourself:</strong><br>
+      Right-click any element on a webpage → "Inspect" → look at the HTML in the DevTools panel. The <code>class</code> attribute gives you the CSS class selectors. The <code>aria-label</code> attribute is especially reliable because it's used for accessibility and tends to be more stable than visual class names.
+    </div>
+  </div>
+
+
+  <!-- RELATIVE DATE PARSING -->
+  <h2 class="section-title">Date Parsing — Converting "3 weeks ago" to a Real Date</h2>
+
+  <div class="card concept">
+    <p>Google Maps doesn't show exact review dates — it shows relative strings like "2 weeks ago", "a month ago", "3 years ago". To do day-of-week analysis, we need to convert these to approximate calendar dates.</p>
+  </div>
+
+  <div class="card code-card">
+    <h3>The <code>parse_relative_date()</code> function</h3>
+    <pre><span class="keyword">def</span> <span class="func">parse_relative_date</span>(text):
+    today = datetime.<span class="func">today</span>()
+    text = text.lower().<span class="func">strip</span>()
+
+    <span class="comment"># "just now", "5 minutes ago", "2 hours ago" → today</span>
+    <span class="keyword">if not</span> text <span class="keyword">or</span> <span class="string">"just now"</span> <span class="keyword">in</span> text <span class="keyword">or</span> <span class="string">"minute"</span> <span class="keyword">in</span> text:
+        <span class="keyword">return</span> today
+
+    <span class="comment"># Match "3 weeks ago" or "a month ago"</span>
+    n_match = re.<span class="func">search</span>(<span class="string">r"(\d+)\s*(day|week|month|year)"</span>, text)
+    a_match = re.<span class="func">search</span>(<span class="string">r"\ba\s+(day|week|month|year)"</span>, text)
+
+    <span class="keyword">if</span> n_match:
+        n, unit = <span class="func">int</span>(n_match.group(1)), n_match.group(2)
+    <span class="keyword">elif</span> a_match:
+        n, unit = 1, a_match.group(1)   <span class="comment"># "a week ago" = 1 week</span>
+    <span class="keyword">else</span>:
+        <span class="keyword">return</span> today
+
+    <span class="keyword">if</span> unit == <span class="string">"week"</span>:
+        <span class="keyword">return</span> today - timedelta(weeks=n)
+    <span class="keyword">elif</span> unit == <span class="string">"month"</span>:
+        <span class="keyword">return</span> today - timedelta(days=n * 30)
+    <span class="keyword">elif</span> unit == <span class="string">"year"</span>:
+        <span class="keyword">return</span> today - timedelta(days=n * 365)</pre>
+
+    <h4>Concepts used:</h4>
+    <ul style="margin-left:20px; font-size:0.93em; margin-top:8px; line-height:2;">
+      <li><strong>Regular expressions (regex):</strong> <code>re.search(r"(\d+)\s*(week|month|year)", text)</code> — a pattern that finds a number followed by a time unit. The <code>(\d+)</code> captures one or more digits. The <code>\s*</code> matches zero or more spaces.</li>
+      <li><strong><code>timedelta</code>:</strong> A Python object representing a duration of time. <code>timedelta(weeks=3)</code> is 3 weeks. Subtracting it from today's date gives you the approximate review date.</li>
+      <li><strong>Approximation:</strong> "a month ago" is treated as 30 days. This introduces a small error but is acceptable for day-of-week analysis — we care whether a complaint happened on a Friday, not the exact date.</li>
+    </ul>
+  </div>
+
+
+  <!-- THE SCROLLING APPROACH -->
+  <h2 class="section-title">How the Scrolling Works</h2>
+
+  <div class="card concept">
+    <p>Google Maps uses <strong>lazy loading</strong> — it only renders review cards as you scroll down. The page doesn't load all 597 reviews at once because that would make the page very slow. Instead, it loads ~10 at a time as you reach the bottom.</p>
+    <p>Our scraper replicates this by repeatedly scrolling the reviews panel to its bottom, waiting 2 seconds for new cards to load, and counting how many cards are now on the page. When the count stops increasing for 5 consecutive scrolls, we know we've reached the end.</p>
+  </div>
+
+  <div class="card code-card">
+    <h3>The scroll loop</h3>
+    <pre><span class="keyword">for</span> attempt <span class="keyword">in</span> <span class="func">range</span>(100):
+    count = page.<span class="func">locator</span>(<span class="string">"div.jftiEf"</span>).<span class="func">count</span>()
+
+    <span class="keyword">if</span> count != last_count:
+        <span class="func">print</span>(<span class="string">f"  Reviews loaded: {count}"</span>)
+        stale = 0
+        last_count = count
+    <span class="keyword">else</span>:
+        stale += 1
+        <span class="keyword">if</span> stale >= 5:     <span class="comment"># 5 scrolls with no new reviews → done</span>
+            <span class="keyword">break</span>
+
+    panel.<span class="func">evaluate</span>(<span class="string">"el => el.scrollTo(0, el.scrollHeight)"</span>)
+    time.<span class="func">sleep</span>(2)      <span class="comment"># wait for Google to load more cards</span></pre>
+    <div class="learn-box">
+      <strong>Key concept — <code>element.evaluate()</code>:</strong><br>
+      This runs a JavaScript snippet directly inside the browser. <code>el.scrollTo(0, el.scrollHeight)</code> is JavaScript that scrolls an element to its very bottom. Sometimes you need to drop into JavaScript when Playwright's Python API doesn't have a direct method for what you need. This is a common pattern in browser automation.
+    </div>
+  </div>
+
+
+  <!-- THE ANTI-SCRAPING WALL -->
+  <h2 class="section-title">The Anti-Scraping Problem — What We Hit and How We Solved It</h2>
+
+  <div class="card highlight">
+    <p>This was the most educational part of Stage 2. We hit <strong>three different blocking mechanisms</strong>, diagnosed each one, and found a solution. Real-world scraping almost always involves this kind of debugging.</p>
+  </div>
+
+  <div class="card debug">
+    <span class="debug-badge">Blocker 1</span>
+    <h3>Google's "Limited View" for unauthenticated users</h3>
+    <div class="blocker">
+      <strong>What happened:</strong> Every time we launched a fresh Playwright browser and navigated to Google Maps, the page showed only "Overview" and "About" tabs — no Reviews tab. A message at the bottom read "You're seeing a limited view of Google Maps."
+    </div>
+    <p>Google detects when a browser session has no login cookies and intentionally withholds content, including reviews. This is a common pattern — many sites give logged-in users more content than anonymous visitors.</p>
+    <div class="fix">
+      <strong>Solution:</strong> Instead of fighting the restriction, we changed the approach entirely. We launch a visible browser, navigate to <code>accounts.google.com</code>, and <strong>pause to let you log in manually</strong>. After you press Enter, the session has your Google cookies and Maps shows the full authenticated view — including all Reviews, Menu, and About tabs.
+    </div>
+    <div class="learn-box">
+      <strong>Concept — Browser sessions and cookies:</strong><br>
+      When you log into a website, the server gives your browser a small piece of data called a <strong>cookie</strong>. Your browser sends this cookie back with every future request, proving you're logged in. A fresh Playwright browser has no cookies — it's like opening an incognito window. By logging in manually within the Playwright session, we populate it with the right cookies.
+    </div>
+  </div>
+
+  <div class="card debug">
+    <span class="debug-badge">Blocker 2</span>
+    <h3>Chrome profile lock — <code>launch_persistent_context</code> hang</h3>
+    <div class="blocker">
+      <strong>What happened:</strong> We tried to use your existing Chrome profile (where you're already logged into Google) to skip the manual login step. The script called <code>launch_persistent_context(user_data_dir=...)</code>. Chrome launched — but then hung indefinitely at <code>context.new_page()</code>.
+    </div>
+    <p>The root cause: <code>launch_persistent_context</code> automatically opens one page when it launches. Calling <code>new_page()</code> on top of that created a conflict. The fix was to use <code>context.pages[0]</code> instead — but the deeper problem was that the Chrome profile's cookie database file was locked by the running Chrome browser, causing incomplete profile copy issues.</p>
+    <div class="fix">
+      <strong>Solution:</strong> Abandoned the profile approach. The manual login approach (Blocker 1's solution) was simpler and more reliable.
+    </div>
+    <div class="learn-box">
+      <strong>Concept — File locking:</strong><br>
+      When Chrome is open, it keeps exclusive lock on its profile database files (like the Cookies file). No other process can read or write those files while Chrome holds the lock. This is why copying the profile while Chrome is open either fails or produces a corrupt copy.
+    </div>
+  </div>
+
+  <div class="card debug">
+    <span class="debug-badge">Blocker 3</span>
+    <h3>Extraction hung on 300 reviews — <code>click_more_buttons</code> bottleneck</h3>
+    <div class="blocker">
+      <strong>What happened:</strong> The scraper successfully loaded 300 reviews and then went completely silent. No output for many minutes. The terminal showed "Reviews loaded: 300" as the last line.
+    </div>
+    <p>The cause: inside the scroll loop, we were calling <code>click_more_buttons()</code> on every scroll pass. This function searched for every "More" button on the page and checked <code>is_visible(timeout=300ms)</code> on each one. With 300 review cards, that's up to 90 seconds of visibility checks per scroll pass — completely blocking progress.</p>
+    <div class="fix">
+      <strong>Solution:</strong> Removed <code>click_more_buttons()</code> from the scroll loop entirely, and simplified the extraction to just read whatever text was already visible. This cut extraction time from "never finishing" to under a minute.
+    </div>
+    <div class="learn-box">
+      <strong>Concept — Performance profiling intuition:</strong><br>
+      When a script hangs with no output, the question is always: "what is it doing right now?" The last printed line tells you where you are in the code. Working backwards from "Reviews loaded: 300", we knew we had entered the scroll loop's next iteration. The only slow operation there was <code>click_more_buttons()</code>. This is basic performance debugging — identify the last known state, then look at what runs next.
+    </div>
+  </div>
+
+
+  <!-- HOW THE SCRIPT WORKS END TO END -->
+  <h2 class="section-title">How the Final Script Works End-to-End</h2>
+
+  <div class="card">
+    <div class="flow">
+      <div class="flow-box">Launch browser</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Navigate to Google login</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">You log in manually</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Navigate to Maps</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Click Reviews tab</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Sort by Newest</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Scroll &amp; load all</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Extract each card</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Save CSV</div>
+    </div>
+  </div>
+
+  <div class="card code-card">
+    <h3>The extraction loop — reading each review card</h3>
+    <pre><span class="keyword">for</span> i, card <span class="keyword">in</span> <span class="func">enumerate</span>(cards):
+    rating  = <span class="func">extract_rating</span>(card)           <span class="comment"># reads aria-label="5 stars"</span>
+    date_raw = <span class="func">extract_text</span>(card, [<span class="string">".rsqaWe"</span>])  <span class="comment"># "3 weeks ago"</span>
+    review_text = <span class="func">extract_text</span>(card, [<span class="string">".wiI7pd"</span>]) <span class="comment"># full review text</span>
+    has_response = card.<span class="func">locator</span>(<span class="string">".CDe7pd"</span>).<span class="func">count</span>() > 0
+
+    review_date = <span class="func">parse_relative_date</span>(date_raw)  <span class="comment"># → datetime object</span>
+
+    reviews.<span class="func">append</span>({
+        <span class="string">"reviewer_id"</span>: <span class="string">f"Reviewer_{i+1:03d}"</span>,   <span class="comment"># zero-padded: 001, 002...</span>
+        <span class="string">"rating"</span>: rating,
+        <span class="string">"date_raw"</span>: date_raw,
+        <span class="string">"date_approx"</span>: review_date.<span class="func">strftime</span>(<span class="string">"%Y-%m-%d"</span>),
+        <span class="string">"day_of_week"</span>: review_date.<span class="func">strftime</span>(<span class="string">"%A"</span>),  <span class="comment"># "Monday", "Friday"...</span>
+        <span class="string">"review_text"</span>: review_text,
+        <span class="string">"has_owner_response"</span>: has_response,
+    })</pre>
+    <div class="learn-box">
+      <strong>Concepts used:</strong><br>
+      <strong>enumerate()</strong> — iterates a list and gives you both the index (<code>i</code>) and the item (<code>card</code>) simultaneously.<br>
+      <strong>strftime()</strong> — formats a datetime object as a string. <code>"%Y-%m-%d"</code> = "2026-04-20". <code>"%A"</code> = "Monday".<br>
+      <strong>f-string with format spec:</strong> <code>f"Reviewer_{i+1:03d}"</code> — the <code>:03d</code> means "format as an integer with at least 3 digits, zero-padded." So 1 → "001", 42 → "042".
+    </div>
+  </div>
+
+
+  <!-- WHAT THE DATA TELLS US ALREADY -->
+  <h2 class="section-title">First Look at the Data</h2>
+
+  <div class="card">
+    <table>
+      <tr><th>Metric</th><th>Value</th><th>What it suggests</th></tr>
+      <tr><td>Total reviews</td><td>597</td><td>Strong review volume for a local restaurant</td></tr>
+      <tr><td>5-star reviews</td><td>466 (78%)</td><td>Rinata has a very strong reputation</td></tr>
+      <tr><td>1 &amp; 2-star combined</td><td>22 (3.7%)</td><td>Very few serious complaints — worth reading each one</td></tr>
+      <tr><td>Wednesday reviews</td><td>25 (vs 65–121 other days)</td><td>Likely shorter hours or closed some Wednesdays</td></tr>
+      <tr><td>Sunday reviews</td><td>121 (highest)</td><td>Busiest day for reviews — probably busiest dining day</td></tr>
+      <tr><td>Reviews without text</td><td>209 (35%)</td><td>Rating-only reviews — common, excluded from text analysis</td></tr>
+    </table>
+  </div>
+
+
+  <!-- CONCEPTS SUMMARY -->
+  <h2 class="section-title">Core Concepts You Learned in Stage 2</h2>
+  <div class="card">
+    <table>
+      <tr><th>Concept</th><th>Simple definition</th></tr>
+      <tr><td>Web scraping</td><td>Automating a browser to extract structured data from websites</td></tr>
+      <tr><td>Playwright</td><td>Python library for controlling a real browser programmatically</td></tr>
+      <tr><td>Headful vs headless</td><td>Visible browser window vs invisible background browser</td></tr>
+      <tr><td>CSS selector</td><td>A pattern that identifies HTML elements by tag, class, or attribute</td></tr>
+      <tr><td>Lazy loading</td><td>Websites that load more content only as you scroll down</td></tr>
+      <tr><td>Browser cookies</td><td>Small data tokens that prove you're logged into a site</td></tr>
+      <tr><td>File locking</td><td>OS mechanism preventing two processes from writing the same file simultaneously</td></tr>
+      <tr><td>Regular expressions (regex)</td><td>Pattern matching syntax for finding text structures like "3 weeks ago"</td></tr>
+      <tr><td>timedelta</td><td>Python object representing a duration used for date arithmetic</td></tr>
+      <tr><td>strftime()</td><td>Format a datetime object into a readable string</td></tr>
+      <tr><td>enumerate()</td><td>Iterate a list while tracking the index of each item</td></tr>
+      <tr><td>Stale counter pattern</td><td>Stop scrolling when N consecutive checks show no new content</td></tr>
+    </table>
+  </div>
+
+
+  <!-- WHAT'S NEXT -->
+  <h2 class="section-title">What Stage 3 Will Cover</h2>
+  <div class="card">
+    <p>Stage 3 is the data cleaning script. The raw CSV is good but not perfect — it needs to be made analysis-ready:</p>
+    <ul style="margin-left:20px; margin-top:8px;">
+      <li>Remove duplicate reviews (same reviewer, same text)</li>
+      <li>Flag and handle rating-only reviews (no text)</li>
+      <li>Verify date approximations are reasonable</li>
+      <li>Normalize text (strip extra whitespace, line breaks)</li>
+      <li>Output a clean <code>clean_reviews.csv</code> ready for AI categorization</li>
+    </ul>
+    <p style="margin-top:12px;">You will learn: <strong>pandas DataFrames</strong>, data quality checks, filtering, and how professionals handle messy real-world data before analysis.</p>
+  </div>
+
+
+  <!-- CHECKLIST -->
+  <h2 class="section-title">Stage 2 Completion Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>Playwright scraper script written at <code>scraper/scrape_reviews.py</code></li>
+      <li>Diagnostic scripts used to inspect page structure and debug selectors</li>
+      <li>Google "limited view" restriction identified and bypassed via manual login</li>
+      <li>Chrome profile lock issue identified and resolved</li>
+      <li>Extraction bottleneck (click_more_buttons) identified and removed</li>
+      <li>Reviews tab located and clicked using <code>button[aria-label*="Reviews"]</code></li>
+      <li>Reviews sorted by Newest</li>
+      <li>All 597 reviews scrolled and loaded</li>
+      <li>Rating, date, day of week, and review text extracted for each review</li>
+      <li>597 rows saved to <code>output/raw_reviews.csv</code></li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+  <p style="text-align:center; color:#999; font-size:0.85em;">Rinata Feedback Intelligence Project &nbsp;|&nbsp; Stage 2 of 6 &nbsp;|&nbsp; Generated May 2026</p>
+
+</div>
+</body>
+</html>

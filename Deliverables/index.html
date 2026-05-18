@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata — Business Intelligence Package</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #2c2c2c; min-height: 100vh; }
+
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+      padding: 60px 40px 50px;
+      color: white;
+      text-align: center;
+    }
+    .header .logo { font-size: 2.8em; margin-bottom: 6px; }
+    .header h1 { font-size: 1.9em; font-weight: 700; margin-bottom: 6px; }
+    .header p { font-size: 0.95em; opacity: 0.65; }
+    .header .date { font-size: 0.8em; opacity: 0.45; margin-top: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 50px 24px 80px; }
+
+    .intro { background: white; border-radius: 10px; padding: 24px 28px; margin-bottom: 36px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); font-size: 0.95em; color: #444; line-height: 1.75; }
+    .intro strong { color: #1a1a2e; }
+
+    .section-label { font-size: 0.75em; letter-spacing: 0.14em; text-transform: uppercase; color: #aaa; font-weight: 700; margin-bottom: 14px; padding-left: 4px; }
+
+    .file-card {
+      background: white;
+      border-radius: 12px;
+      padding: 0;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      overflow: hidden;
+      display: flex;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .file-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.11);
+    }
+
+    .file-stripe { width: 6px; flex-shrink: 0; }
+    .stripe-excel  { background: #1e7e34; }
+    .stripe-word   { background: #1a56a0; }
+    .stripe-html   { background: #9b59b6; }
+
+    .file-icon { width: 70px; display: flex; align-items: center; justify-content: center; font-size: 2em; flex-shrink: 0; background: #fafafa; }
+    .file-body { flex: 1; padding: 22px 24px; }
+    .file-name { font-size: 1.05em; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .file-type { font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 10px; }
+    .type-excel { color: #1e7e34; }
+    .type-word  { color: #1a56a0; }
+    .type-html  { color: #9b59b6; }
+    .file-desc { font-size: 0.9em; color: #555; line-height: 1.65; margin-bottom: 14px; }
+    .file-contains { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: #f0f2f5; border-radius: 4px; padding: 3px 10px; font-size: 0.78em; color: #555; }
+
+    .file-open { display: flex; align-items: center; justify-content: center; padding: 0 20px; }
+    .open-btn {
+      display: inline-block;
+      background: #0f3460;
+      color: white;
+      padding: 9px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.82em;
+      font-weight: 700;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    .open-btn:hover { background: #e94560; }
+
+    .how-to { background: white; border-radius: 10px; padding: 28px 30px; margin-top: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .how-to h3 { font-size: 0.95em; color: #0f3460; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .how-to ol { margin-left: 20px; }
+    .how-to li { font-size: 0.92em; color: #444; margin-bottom: 10px; line-height: 1.6; }
+    .how-to li strong { color: #1a1a2e; }
+
+    .data-box { background: #1a1a2e; border-radius: 10px; padding: 24px 28px; margin-top: 40px; color: white; }
+    .data-box h3 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.1em; color: #f39c12; margin-bottom: 14px; }
+    .data-stat-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .data-stat { background: rgba(255,255,255,0.07); border-radius: 8px; padding: 14px 18px; text-align: center; flex: 1; min-width: 100px; }
+    .data-stat .n { font-size: 1.6em; font-weight: 700; color: white; display: block; }
+    .data-stat .l { font-size: 0.72em; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    footer { text-align: center; color: #bbb; font-size: 0.8em; padding: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">🍝</div>
+  <h1>Rinata Restaurant</h1>
+  <p>Business Intelligence Package &nbsp;·&nbsp; Google Review Analysis</p>
+  <div class="date">May 2026 &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Internal Use</div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    This folder contains the complete business intelligence output from Rinata's Google Review analysis.
+    All 597 public reviews were collected, cleaned, and analyzed using AI — each written review was
+    read and categorized by topic, sentiment, and urgency. <strong>Start with the Strategy Report</strong>
+    to understand the big picture, then open the Excel workbook to explore the underlying data,
+    and keep the Word document for team reference or sharing.
+  </div>
+
+  <div class="section-label">Deliverables — 5 Files</div>
+
+  <!-- File: Complete Report (FEATURED) -->
+  <div class="file-card" style="border: 2px solid #0f3460; border-radius: 12px; overflow: hidden;">
+    <div class="file-stripe" style="background: linear-gradient(180deg, #0f3460, #e94560); width: 8px;"></div>
+    <div class="file-icon" style="background:#f0f4ff;">📋</div>
+    <div class="file-body">
+      <div class="file-name" style="font-size:1.15em;">Complete Intelligence Report <span style="font-size:0.65em; background:#0f3460; color:white; padding:2px 10px; border-radius:20px; margin-left:8px; vertical-align:middle; font-weight:700;">START HERE</span></div>
+      <div class="file-type type-html">HTML &nbsp;·&nbsp; Open in Browser</div>
+      <div class="file-desc">
+        Everything in one place. All sections — the data overview, category breakdown, day-of-week analysis, strengths,
+        weaknesses, growth strategy, risk analysis, lease decision framework, management summary, priority actions,
+        and the AI advantage section — unified into a single scrollable report with a sidebar navigator.
+        <strong>This is the document to open first and share with co-owners.</strong>
+      </div>
+      <div class="file-contains">
+        <span class="tag">All sections unified</span>
+        <span class="tag">Sidebar navigation</span>
+        <span class="tag">Strengths &amp; weaknesses</span>
+        <span class="tag">Growth strategy</span>
+        <span class="tag">Lease analysis</span>
+        <span class="tag">Management summary</span>
+        <span class="tag">AI advantage</span>
+      </div>
+    </div>
+    <div class="file-open">
+      <a class="open-btn" href="Rinata_Complete_Report.html" target="_blank">Open →</a>
+    </div>
+  </div>
+
+  <div style="margin: 28px 0 18px; font-size:0.8em; color:#aaa; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding-left:4px;">Individual Files</div>
+
+  <!-- File 0: Owner Briefing -->
+  <div class="file-card">
+    <div class="file-stripe stripe-html"></div>
+    <div class="file-icon">🍝</div>
+    <div class="file-body">
+      <div class="file-name">Owner Briefing — Strengths, Weaknesses &amp; Opportunities</div>
+      <div class="file-type type-html">HTML &nbsp;·&nbsp; Open in Browser</div>
+      <div class="file-desc">
+        The co-owner read. Written through the lens of an experienced restaurateur — what the
+        reviews say Rinata is getting right, what is hurting the business right now, and where
+        the real growth opportunities are. Includes the AI advantage section showing what you
+        can only find by analyzing all 597 reviews at once. <strong>Start here if you're presenting to partners.</strong>
+      </div>
+      <div class="file-contains">
+        <span class="tag">Strengths</span>
+        <span class="tag">Weaknesses</span>
+        <span class="tag">Growth opportunities</span>
+        <span class="tag">AI findings</span>
+        <span class="tag">Priority action list</span>
+      </div>
+    </div>
+    <div class="file-open">
+      <a class="open-btn" href="Rinata_Owner_Briefing.html" target="_blank">Open →</a>
+    </div>
+  </div>
+
+  <!-- File 1: Strategy Report -->
+  <div class="file-card">
+    <div class="file-stripe stripe-html"></div>
+    <div class="file-icon">📊</div>
+    <div class="file-body">
+      <div class="file-name">Rinata Business Strategy Report</div>
+      <div class="file-type type-html">HTML &nbsp;·&nbsp; Open in Browser</div>
+      <div class="file-desc">
+        The strategic read — built directly from the review data. Covers where to grow,
+        what to protect, what puts the business at risk, and a full pros/cons breakdown
+        of selling the lease. Every claim is backed by a specific number or customer quote.
+        <strong>Start here.</strong>
+      </div>
+      <div class="file-contains">
+        <span class="tag">Growth plays</span>
+        <span class="tag">Risk analysis</span>
+        <span class="tag">Day-of-week patterns</span>
+        <span class="tag">Lease sale pros/cons</span>
+        <span class="tag">Priority action list</span>
+      </div>
+    </div>
+    <div class="file-open">
+      <a class="open-btn" href="Rinata_Business_Strategy.html" target="_blank">Open →</a>
+    </div>
+  </div>
+
+  <!-- File 2: Excel -->
+  <div class="file-card">
+    <div class="file-stripe stripe-excel"></div>
+    <div class="file-icon">📗</div>
+    <div class="file-body">
+      <div class="file-name">Rinata Review Analysis</div>
+      <div class="file-type type-excel">Excel Workbook &nbsp;·&nbsp; .xlsx</div>
+      <div class="file-desc">
+        The full data workbook. Four sheets covering every review, AI-assigned labels,
+        day-of-week trends with a color-coded heatmap, and a summary dashboard with
+        KPI cards and charts. Filterable and explorable — use it to dig into any
+        specific question the strategy report raises.
+      </div>
+      <div class="file-contains">
+        <span class="tag">Summary Dashboard</span>
+        <span class="tag">388 categorized reviews</span>
+        <span class="tag">Day-of-week heatmap</span>
+        <span class="tag">597 raw reviews</span>
+        <span class="tag">High-urgency flags</span>
+      </div>
+    </div>
+    <div class="file-open">
+      <a class="open-btn" href="Rinata_Review_Analysis.xlsx">Open →</a>
+    </div>
+  </div>
+
+  <!-- File 3: Word -->
+  <div class="file-card">
+    <div class="file-stripe stripe-word"></div>
+    <div class="file-icon">📘</div>
+    <div class="file-body">
+      <div class="file-name">Management Report</div>
+      <div class="file-type type-word">Word Document &nbsp;·&nbsp; .docx</div>
+      <div class="file-desc">
+        Internal memo format. AI-written narrative covering what the reviews say,
+        what's working, what needs attention, and a numbered action list.
+        Designed to be shared with family members or staff without requiring them
+        to understand the underlying data or analysis process.
+      </div>
+      <div class="file-contains">
+        <span class="tag">At-a-glance KPIs</span>
+        <span class="tag">Strengths & gaps</span>
+        <span class="tag">Recommended actions</span>
+        <span class="tag">Customer quotes</span>
+        <span class="tag">Methodology note</span>
+      </div>
+    </div>
+    <div class="file-open">
+      <a class="open-btn" href="Rinata_Management_Report.docx">Open →</a>
+    </div>
+  </div>
+
+
+  <!-- How to use -->
+  <div class="how-to">
+    <h3>Recommended Reading Order</h3>
+    <ol>
+      <li><strong>Strategy Report (browser)</strong> — Read this first. It tells the full story and makes the case for specific decisions. No data knowledge required.</li>
+      <li><strong>Excel Workbook — Summary Dashboard tab</strong> — Open for the visual overview: category charts, day-of-week table, and the high-urgency review list at the bottom. Spend 5 minutes here.</li>
+      <li><strong>Excel Workbook — Categorized Reviews tab</strong> — Use this to investigate specific claims. Filter by urgency = "high" to read the 8 critical reviews. Filter by day = "Saturday" to see what's going wrong on weekends.</li>
+      <li><strong>Management Report (Word)</strong> — Share this with anyone who needs the summary without the full context. It stands alone.</li>
+    </ol>
+  </div>
+
+
+  <!-- Data snapshot -->
+  <div class="data-box">
+    <h3>Dataset Snapshot</h3>
+    <div class="data-stat-row">
+      <div class="data-stat"><span class="n">597</span><span class="l">Total Reviews</span></div>
+      <div class="data-stat"><span class="n">388</span><span class="l">AI Analyzed</span></div>
+      <div class="data-stat"><span class="n">4.64</span><span class="l">Avg Rating</span></div>
+      <div class="data-stat"><span class="n">78%</span><span class="l">5-Star</span></div>
+      <div class="data-stat"><span class="n">8</span><span class="l">High Urgency</span></div>
+      <div class="data-stat"><span class="n">71%</span><span class="l">Food Quality</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Rinata Restaurant &nbsp;·&nbsp; Business Intelligence Package &nbsp;·&nbsp; May 2026</footer>
+
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rinata AI Agent Suite — Project Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.65;
+    color: #1a1a2e;
+    background: #fff;
+  }
+
+  /* ── Cover ─────────────────────────────────────────── */
+  .cover {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: #fff;
+    padding: 72px 64px 64px;
+    min-height: 260px;
+    position: relative;
+    page-break-after: always;
+  }
+  .cover-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #e94560;
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .cover h2 {
+    font-size: 16px;
+    font-weight: 300;
+    color: #a8b2d8;
+    margin-bottom: 32px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .cover-meta-item label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a8b2d8;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .cover-badge {
+    display: inline-flex;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge-green  { background: rgba(39,174,96,0.25);  color: #2ecc71; border: 1px solid rgba(46,204,113,0.4); }
+  .badge-blue   { background: rgba(52,152,219,0.25); color: #74b9ff; border: 1px solid rgba(116,185,255,0.4); }
+  .badge-orange { background: rgba(230,126,34,0.25); color: #fdcb6e; border: 1px solid rgba(253,203,110,0.4); }
+
+  /* ── Page layout ────────────────────────────────────── */
+  .page {
+    padding: 48px 64px;
+    max-width: 100%;
+  }
+  .page + .page {
+    page-break-before: always;
+  }
+
+  /* ── Section headings ───────────────────────────────── */
+  .section-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #e94560;
+    margin-bottom: 6px;
+  }
+  h2.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e94560;
+  }
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 20px 0 8px;
+  }
+  h4 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #0f3460;
+    margin: 14px 0 6px;
+  }
+  p { margin-bottom: 10px; color: #333; }
+
+  /* ── Build status cards ─────────────────────────────── */
+  .build-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .build-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .build-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .build-card.complete::before { background: #2ecc71; }
+  .build-card.in-progress::before { background: #3498db; }
+  .build-card.blocked::before { background: #e67e22; }
+  .build-card.planned::before { background: #95a5a6; }
+
+  .build-number {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .build-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .build-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .status-complete   { background: #d5f5e3; color: #1e8449; }
+  .status-progress   { background: #d6eaf8; color: #1a5276; }
+  .status-blocked    { background: #fdebd0; color: #9c4a10; }
+  .status-planned    { background: #f0f0f0; color: #666; }
+  .build-desc {
+    font-size: 10px;
+    color: #555;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .blocker {
+    font-size: 9px;
+    color: #e67e22;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ── File tree ──────────────────────────────────────── */
+  .file-tree {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    line-height: 1.8;
+  }
+  .file-tree .dir  { color: #0f3460; font-weight: 600; }
+  .file-tree .file { color: #333; }
+  .file-tree .new  { color: #1e8449; font-weight: 600; }
+  .file-tree .desc { color: #888; font-family: 'Inter', sans-serif; font-size: 9px; margin-left: 8px; }
+
+  /* ── Steps / instructions ───────────────────────────── */
+  .steps { margin: 16px 0; }
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .step-num {
+    min-width: 28px;
+    height: 28px;
+    background: #0f3460;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content h4 { margin-top: 0; margin-bottom: 4px; }
+  .step-content p  { margin-bottom: 0; font-size: 10.5px; }
+
+  /* ── Code blocks ────────────────────────────────────── */
+  .code {
+    background: #1a1a2e;
+    color: #cdd6f4;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 8px 0 14px;
+    line-height: 1.7;
+    overflow: hidden;
+  }
+  .code .comment { color: #6c7086; }
+  .code .cmd     { color: #a6e3a1; }
+  .code .flag    { color: #89dceb; }
+
+  /* ── Pipeline flow ──────────────────────────────────── */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .pipe-step {
+    background: #0f3460;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 100px;
+  }
+  .pipe-step .pipe-script {
+    font-family: 'Fira Code', monospace;
+    font-size: 8px;
+    color: #a8b2d8;
+    margin-top: 2px;
+  }
+  .pipe-arrow {
+    color: #e94560;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 4px;
+  }
+
+  /* ── Output table ───────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 10px;
+  }
+  th {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+    color: #333;
+  }
+  tr:nth-child(even) td { background: #fafafa; }
+  td code {
+    font-family: 'Fira Code', monospace;
+    font-size: 9px;
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #0f3460;
+  }
+  .cat-invoice       { color: #8e44ad; font-weight: 600; }
+  .cat-price-change  { color: #c0392b; font-weight: 600; }
+  .cat-delivery      { color: #2980b9; font-weight: 600; }
+  .cat-dispute       { color: #e67e22; font-weight: 600; }
+  .cat-promo         { color: #7f8c8d; }
+
+  /* ── Callout boxes ──────────────────────────────────── */
+  .callout {
+    border-left: 3px solid;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 14px 0;
+  }
+  .callout-info  { border-color: #3498db; background: #eaf4fc; }
+  .callout-warn  { border-color: #e67e22; background: #fef9f0; }
+  .callout-tip   { border-color: #2ecc71; background: #eafaf1; }
+  .callout h4    { margin-top: 0; font-size: 10px; }
+  .callout p     { margin-bottom: 0; font-size: 10px; }
+
+  /* ── Two-column layout ──────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 16px 0;
+  }
+
+  /* ── Roadmap ────────────────────────────────────────── */
+  .roadmap-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .rm-num    { font-size: 9px; font-weight: 700; color: #888; min-width: 52px; }
+  .rm-name   { font-size: 11px; font-weight: 600; flex: 1; }
+  .rm-status { font-size: 9px; font-weight: 600; min-width: 80px; text-align: right; }
+  .rm-block  { font-size: 9px; color: #e67e22; flex: 1; }
+
+  /* ── Footer ─────────────────────────────────────────── */
+  .footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer span { font-size: 9px; color: #aaa; }
+
+  /* ── Print ──────────────────────────────────────────── */
+  @media print {
+    body { font-size: 10.5px; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     COVER
+═════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-label">Post-Build Report</div>
+  <h1>Rinata AI Agent Suite</h1>
+  <h2>Automated intelligence for a Minneapolis Italian restaurant</h2>
+
+  <div class="cover-badge">
+    <span class="badge badge-green">Build 1 Complete</span>
+    <span class="badge badge-green">Build 2 Complete</span>
+    <span class="badge badge-blue">Build 6 Complete</span>
+    <span class="badge badge-orange">Builds 3 &amp; 4 In Progress</span>
+  </div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Restaurant</label>
+      <span>Rinata — Minneapolis, MN</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Report Date</label>
+      <span>May 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Builds Complete</label>
+      <span>3 of 8</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Stack</label>
+      <span>Python · Claude API · Gmail API · n8n</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 1 — EXECUTIVE SUMMARY + BUILD STATUS
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Overview</div>
+  <h2 class="section-title">Executive Summary</h2>
+
+  <p>
+    The Rinata AI Agent Suite is a collection of purpose-built Python agents that automate the
+    highest-friction, most repetitive operational tasks at Rinata restaurant. Each build is a
+    standalone pipeline that ingests real restaurant data, processes it through Claude (Anthropic's
+    AI), and outputs a ready-to-use deliverable — an Excel workbook, a response draft, or a
+    priority queue — that the manager can act on in minutes rather than hours.
+  </p>
+  <p>
+    The suite runs on a <strong>thin harness / fat skills</strong> architecture: 85% deterministic
+    Python code handles data ingestion, cleaning, and formatting; Claude handles only the judgment
+    calls (categorization, tone, summarization). This makes the system fast, auditable, and cheap
+    to operate.
+  </p>
+  <p>
+    Three builds are complete as of this report. Together they cover guest review intelligence,
+    owner response drafting, and supplier email triage — eliminating an estimated 6–10 hours of
+    weekly manual work.
+  </p>
+
+  <h3>Complete Build Status</h3>
+  <div class="build-grid">
+
+    <div class="build-card complete">
+      <div class="build-number">Build 1</div>
+      <div class="build-name">Feedback &amp; Reviews Intelligence System</div>
+      <span class="build-status status-complete">✓ Complete</span>
+      <div class="build-desc">Scrapes Google Reviews, cleans and categorizes every review using Claude, and produces a multi-sheet Excel analysis workbook with sentiment trends, top themes, and staff mentions.</div>
+    </div>
+
+    <div class="build-card complete">
+      <div class="build-number">Build 2</div>
+      <div class="build-name">Review Response Agent</div>
+      <span class="build-status status-complete">✓ Complete</span>
+      <div class="build-desc">Extends Build 1. Generates on-brand draft responses for every unanswered review. Urgent reviews (1–2 star, health keywords) are routed to a priority queue. Hardened post-sign-off with a 3★-and-below filter, idempotent reruns, and a Docker-based n8n approval workflow.</div>
+    </div>
+
+    <div class="build-card complete">
+      <div class="build-number">Build 6</div>
+      <div class="build-name">Supplier Email Triage Agent</div>
+      <span class="build-status status-progress">✓ Built — Setup Required</span>
+      <div class="build-desc">Connects to the restaurant's Google Workspace Gmail, fetches supplier emails, categorizes each one (invoice, delivery, price change, dispute), flags urgent items, and outputs a colour-coded Excel triage workbook.</div>
+    </div>
+
+    <div class="build-card blocked">
+      <div class="build-number">Build 3</div>
+      <div class="build-name">Weekly P&amp;L Drafting Agent</div>
+      <span class="build-status status-blocked">Blocked</span>
+      <div class="build-desc">Ingests weekly financials and generates a formatted P&amp;L with variance analysis and management narrative.</div>
+      <div class="blocker">⚠ Waiting: QuickBooks login + ownership sign-off on P&amp;L targets</div>
+    </div>
+
+    <div class="build-card blocked">
+      <div class="build-number">Build 4</div>
+      <div class="build-name">Vendor Invoice Reconciliation Agent</div>
+      <span class="build-status status-blocked">Blocked</span>
+      <div class="build-desc">Parses vendor invoice PDFs, matches line items against a master price list, and flags discrepancies.</div>
+      <div class="blocker">⚠ Waiting: Vendor invoice PDFs + master price list</div>
+    </div>
+
+    <div class="build-card planned">
+      <div class="build-number">Builds 5, 7, 8</div>
+      <div class="build-name">Menu / Scheduling / Reservations</div>
+      <span class="build-status status-planned">Planned</span>
+      <div class="build-desc">Menu profitability analysis, scheduling assistant (most complex), and reservation pattern analysis. Scoped but not yet built.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 2 — BUILD 6 DEEP DIVE
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Build 6 — Supplier Email Triage Agent</div>
+  <h2 class="section-title">What Was Built</h2>
+
+  <p>
+    Build 6 connects to Rinata's Google Workspace Gmail account, pulls emails from supplier
+    and vendor contacts, and uses Claude to categorize and prioritize each one. The output is
+    a four-sheet Excel workbook the manager opens every morning to see exactly what needs
+    attention — and in what order.
+  </p>
+
+  <h3>Pipeline Architecture</h3>
+  <div class="pipeline">
+    <div class="pipe-step">
+      Gmail API
+      <div class="pipe-script">fetch_emails.py</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      Claude Haiku
+      <div class="pipe-script">categorize_emails.py</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      Excel Workbook
+      <div class="pipe-script">build_triage_sheet.py</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      Manager Review
+      <div class="pipe-script">Rinata_Email_Triage.xlsx</div>
+    </div>
+  </div>
+
+  <h3>Email Categories</h3>
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Urgency</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td><span class="cat-price-change">price_change</span></td>
+      <td>Vendor announcing price increases or decreases on any item</td>
+      <td>Always High</td>
+      <td>"Chicken breast pricing update effective June 1"</td>
+    </tr>
+    <tr>
+      <td><span class="cat-dispute">dispute</span></td>
+      <td>Wrong items, shortages, damaged goods, billing errors</td>
+      <td>Always High</td>
+      <td>"Short shipment on your June 3 order — 2 cases missing"</td>
+    </tr>
+    <tr>
+      <td><span class="cat-invoice">invoice</span></td>
+      <td>Vendor billing for goods delivered; statements; remittance</td>
+      <td>Medium (High if past-due)</td>
+      <td>"Invoice #4821 — $1,240.00 due June 15"</td>
+    </tr>
+    <tr>
+      <td><span class="cat-delivery">delivery</span></td>
+      <td>Shipping notices, ETAs, delivery confirmations, delays</td>
+      <td>Medium (High if delay)</td>
+      <td>"Your Sysco order ships Tuesday AM, ETA 7–9am"</td>
+    </tr>
+    <tr>
+      <td>order_confirm</td>
+      <td>Vendor confirming a purchase order placed by the restaurant</td>
+      <td>Low</td>
+      <td>"Order #2091 confirmed — 3 cases tomatoes, 2 cases pasta"</td>
+    </tr>
+    <tr>
+      <td><span class="cat-promo">promo</span></td>
+      <td>Vendor marketing, sales promotions, product announcements</td>
+      <td>Low</td>
+      <td>"Summer specials — 10% off seasonal produce this week"</td>
+    </tr>
+    <tr>
+      <td>general</td>
+      <td>Anything else: introductions, relationship emails, miscellaneous</td>
+      <td>Low</td>
+      <td>"Introducing your new account rep, Maria Johnson"</td>
+    </tr>
+  </table>
+
+  <h3>Output Workbook — 4 Sheets</h3>
+  <div class="two-col">
+    <div>
+      <h4>Sheet 1 — All Emails</h4>
+      <p>Full list of all supplier emails, colour-coded by urgency (red = high, amber = medium, green = low). Sortable and filterable. Every email includes: date, supplier name, subject, category, urgency, one-sentence summary, and a plain-English action item.</p>
+
+      <h4>Sheet 2 — Urgent Queue</h4>
+      <p>High-urgency emails only, sorted with price changes and disputes at the top. This is the first thing to check each morning. Price changes need a decision; disputes need a call.</p>
+    </div>
+    <div>
+      <h4>Sheet 3 — Invoices</h4>
+      <p>All invoice emails in one place for accounts payable. Each row includes the extracted amount, due date, and invoice number where available.</p>
+
+      <h4>Sheet 4 — Price Changes</h4>
+      <p>Price change notices isolated for review. These are the emails that compound silently — a 5% increase on chicken breast adds up to thousands of dollars a year if missed.</p>
+    </div>
+  </div>
+
+  <h3>Files Created</h3>
+  <div class="file-tree">
+<span class="dir">Rinata/</span>
+├── <span class="dir">email_triage/</span>
+│   ├── <span class="new">suppliers.json</span>        <span class="desc">← Known supplier domains + keyword search terms (edit this)</span>
+│   ├── <span class="new">gmail_auth.py</span>         <span class="desc">← One-time OAuth setup script</span>
+│   ├── <span class="new">fetch_emails.py</span>       <span class="desc">← Pulls emails from Gmail API</span>
+│   ├── <span class="new">categorize_emails.py</span>  <span class="desc">← Claude Haiku categorization engine</span>
+│   ├── <span class="new">build_triage_sheet.py</span> <span class="desc">← Builds the Excel workbook</span>
+│   └── <span class="new">run_email_triage.py</span>   <span class="desc">← Full pipeline orchestrator</span>
+├── <span class="dir">prompts/</span>
+│   └── <span class="new">email_triage_v1.txt</span>   <span class="desc">← Categorization system prompt</span>
+└── <span class="dir">output/</span>
+    ├── <span class="file">raw_emails.json</span>       <span class="desc">← Generated: raw fetched email data</span>
+    ├── <span class="file">email_categories.csv</span>  <span class="desc">← Generated: categorized results</span>
+    ├── <span class="file">urgent_emails.csv</span>     <span class="desc">← Generated: high-urgency subset</span>
+    └── <span class="file">Rinata_Email_Triage.xlsx</span> <span class="desc">← Generated: final deliverable</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 3 — SETUP & USAGE
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Build 6 — Setup &amp; Usage</div>
+  <h2 class="section-title">Getting Build 6 Running</h2>
+
+  <div class="callout callout-warn">
+    <h4>Prerequisites</h4>
+    <p>You need the restaurant's Google Workspace login credentials and access to create a Google Cloud project under that account. This setup takes about 10 minutes and only needs to be done once.</p>
+  </div>
+
+  <h3>One-Time Setup — Google Cloud Console</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Sign in to Google Cloud Console</h4>
+        <p>Go to <strong>console.cloud.google.com</strong> and sign in with the <strong>restaurant's Google Workspace account</strong> (not your personal Gmail). Create a new project — name it "Rinata Agents" or similar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Enable the Gmail API</h4>
+        <p>In the left sidebar: <strong>APIs &amp; Services → Library</strong>. Search for "Gmail API" and click <strong>Enable</strong>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Create OAuth 2.0 Credentials</h4>
+        <p>Go to <strong>APIs &amp; Services → Credentials → Create Credentials → OAuth 2.0 Client ID</strong>. Choose <strong>Desktop app</strong> as the application type. Name it anything. Click Create.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Download credentials.json</h4>
+        <p>Click the download icon next to the credential you just created. Save the file as <code>credentials.json</code> and place it at:</p>
+        <div class="code">C:\Users\shant\projects\Rinata\email_triage\credentials.json</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Configure Your Suppliers</h4>
+        <p>Open <code>email_triage/suppliers.json</code> and add the restaurant's actual supplier email domains. The file already has Sysco, US Foods, and Gordon Food Service as examples — update with whoever actually delivers to Rinata.</p>
+        <div class="code"><span class="comment">// Example entry — add your actual suppliers</span>
+{
+  "name": "Local Produce Co",
+  "domains": ["localproduceco.com"],
+  "category": "Produce"
+}</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Authenticate (browser opens once)</h4>
+        <p>Run the auth script from your terminal. A browser window will open — sign in with the restaurant's Google account and grant permission. This creates <code>token.json</code> and you won't need to do this again.</p>
+        <div class="code"><span class="cmd">python email_triage/gmail_auth.py</span>
+<span class="comment"># Expected output: "✓ Authenticated as: rinata@..."</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Running the Pipeline</h3>
+
+  <h4>Full run (fetch new emails + categorize + build workbook)</h4>
+  <div class="code"><span class="cmd">python email_triage/run_email_triage.py</span></div>
+
+  <h4>Fetch last 7 days only</h4>
+  <div class="code"><span class="cmd">python email_triage/run_email_triage.py <span class="flag">--days 7</span></span></div>
+
+  <h4>Re-categorize without fetching (useful after editing the prompt)</h4>
+  <div class="code"><span class="cmd">python email_triage/run_email_triage.py <span class="flag">--skip-fetch</span></span></div>
+
+  <h4>Smoke test — categorize only 5 emails</h4>
+  <div class="code"><span class="cmd">python email_triage/categorize_emails.py 5</span></div>
+
+  <div class="callout callout-tip">
+    <h4>Idempotency</h4>
+    <p>Every script is safe to re-run. Emails already fetched or categorized are skipped automatically — you'll never pay twice to process the same message.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <h4>Recommended Cadence</h4>
+    <p>Run <code>run_email_triage.py</code> every weekday morning before the manager arrives. Takes under 2 minutes. Open <code>Rinata_Email_Triage.xlsx</code> → Sheet 2 (Urgent Queue) first, then Sheet 3 (Invoices) for payment review.</p>
+  </div>
+
+  <div class="footer">
+    <span>Rinata AI Agent Suite — Build 6 Project Summary</span>
+    <span>Confidential · May 2026</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     ADDENDUM 1 — BUILD 2 HARDENING & APPROVAL AUTOMATION
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Addendum — May 2026 Session</div>
+  <h2 class="section-title">Build 2 Hardening &amp; Approval Automation</h2>
+
+  <p>
+    This addendum records work completed after Build 2's initial sign-off. The agent was
+    production-hardened, gated behind an owner approval step, and wired for unattended
+    scheduling. The architecture principles are unchanged — deterministic Python does the
+    work, Claude is used only for the response wording, and every run stays auditable and
+    cheap to operate.
+  </p>
+
+  <h3>What Was Added to Build 2</h3>
+  <table>
+    <tr>
+      <th>Enhancement</th>
+      <th>What it does</th>
+      <th>Why it matters</th>
+    </tr>
+    <tr>
+      <td><strong>3★-and-below filter</strong></td>
+      <td>Drafts replies only for reviews rated 3 stars or lower.</td>
+      <td>Ownership only responds to critical and negative feedback. Cuts the working set from 386 reviews to 32, drops API cost to near-zero, and focuses attention where it counts.</td>
+    </tr>
+    <tr>
+      <td><strong>Pipeline orchestrator</strong><br><code>run_all.py</code></td>
+      <td>One command runs clean → categorize → workbook → responses → sheets in the required order, with sanity checks between steps.</td>
+      <td>Makes the suite safe to schedule unattended. Aborts if the scraper returns suspicious data instead of letting it flow downstream, and enforces step order so the response sheets are never overwritten.</td>
+    </tr>
+    <tr>
+      <td><strong>Idempotent reruns</strong></td>
+      <td>Skips reviews already approved or rejected; carries still-pending drafts forward unchanged.</td>
+      <td>Re-running never duplicates work, never rewrites a draft the owner is mid-review on, and never pays the Claude API twice — the same idempotency standard as Build 6.</td>
+    </tr>
+    <tr>
+      <td><strong>Approval workflow</strong></td>
+      <td>Every draft is held as "Pending Review" until the owner explicitly approves or rejects it.</td>
+      <td>No AI-written text reaches a public Google review without a human decision.</td>
+    </tr>
+  </table>
+
+  <div class="footer">
+    <span>Rinata AI Agent Suite — Session Addendum</span>
+    <span>Confidential · May 2026</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     ADDENDUM 1b — APPROVAL AUTOMATION
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Addendum — May 2026 Session</div>
+  <h2 class="section-title">Approval Automation (n8n)</h2>
+
+  <p>A scheduled n8n workflow drives the human-in-the-loop process end to end:</p>
+  <div class="pipeline">
+    <div class="pipe-step">Scheduled Run<div class="pipe-script">run_all.py</div></div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Pending Digest<div class="pipe-script">approval_digest.py</div></div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Owner Email<div class="pipe-script">Approve / Reject</div></div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Decision Logged<div class="pipe-script">record_decision.py</div></div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Approved Queue<div class="pipe-script">approved_responses.csv</div></div>
+  </div>
+
+  <div class="callout callout-info">
+    <h4>Docker-aware design</h4>
+    <p>Because n8n runs inside Docker — isolated from the host's Python, files, and Chrome — the workflow uses a file-handoff design over a mounted volume rather than calling host commands. The host runs the pipeline on a schedule; n8n only sends the approval emails and writes decisions back into the shared <code>output/</code> folder. n8n stays a thin orchestrator, and no Python or browser has to live in the container.</p>
+  </div>
+
+  <div class="callout callout-warn">
+    <h4>Honest limitation — no auto-posting</h4>
+    <p>Build 1 scrapes Google reviews; it cannot post replies. "Approved" means a clean, owner-approved list (<code>approved_responses.csv</code>) the manager pastes into Google Business Profile. True auto-posting would require the Google Business Profile API and is deliberately out of scope — AI text is never published unattended.</p>
+  </div>
+
+  <div class="footer">
+    <span>Rinata AI Agent Suite — Session Addendum</span>
+    <span>Confidential · May 2026</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     ADDENDUM 2 — INFRASTRUCTURE & TOOLING DECISIONS
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Addendum — Infrastructure</div>
+  <h2 class="section-title">Infrastructure &amp; Tooling Decisions</h2>
+
+  <p>
+    Two infrastructure items were addressed alongside the Build 2 work. Both are recorded
+    here with their rationale so the decisions are not revisited without cause.
+  </p>
+
+  <h3>GitHub MCP Server — Connected</h3>
+  <p>
+    The official GitHub MCP server was connected to Claude Code via Docker and registered at
+    user scope, so it is available in every future session. This lets the assistant read pull
+    requests and repository state directly during development work.
+  </p>
+  <div class="code"><span class="cmd">docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server</span>
+<span class="comment"># Status: ✓ Connected — verified via `claude mcp list`</span></div>
+
+  <h3>Local Models — Evaluated &amp; Declined</h3>
+  <p>
+    Docker Model Runner was enabled and smoke-tested with a small local model. It works, but
+    CPU-class local models are far weaker at instruction-following — directly at odds with this
+    suite's governing principle: <strong>accuracy over speed, because this is financial data</strong>
+    (most critical for Builds 3 &amp; 4). The Claude API costs under a dollar for the entire
+    review set.
+  </p>
+
+  <div class="callout callout-tip">
+    <h4>Decision — the suite stays on the Claude API</h4>
+    <p>Docker Model Runner remains installed but idle. Local inference will be reconsidered only if a hard data-residency requirement appears (financial data contractually cannot leave the machine) — and even then with a properly-sized GPU model, not a small CPU one.</p>
+  </div>
+
+  <div class="footer">
+    <span>Rinata AI Agent Suite — Session Addendum</span>
+    <span>Confidential · May 2026</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 4 — FULL SYSTEM + ROADMAP
+═════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Full System</div>
+  <h2 class="section-title">Complete File Structure &amp; Roadmap</h2>
+
+  <h3>Full Project File Structure</h3>
+  <div class="file-tree">
+<span class="dir">Rinata/</span>
+├── <span class="file">run_all.py</span>              <span class="desc">← Builds 1+2 orchestrator + sanity checks</span>
+├── <span class="file">.env</span>                    <span class="desc">← ANTHROPIC_API_KEY (keep private)</span>
+│
+├── <span class="dir">scraper/</span>
+│   └── <span class="file">scrape_reviews.py</span>   <span class="desc">← Build 1: Playwright scraper for Google reviews</span>
+│
+├── <span class="dir">categorizer/</span>
+│   ├── <span class="file">clean_data.py</span>       <span class="desc">← Build 1: Data cleaning and normalization</span>
+│   ├── <span class="file">categorize.py</span>       <span class="desc">← Build 1: Claude review categorization</span>
+│   ├── <span class="file">build_excel.py</span>      <span class="desc">← Build 1: Analysis workbook (Sheets 1–4)</span>
+│   └── <span class="file">build_report.py</span>     <span class="desc">← Build 1: Management report</span>
+│
+├── <span class="dir">responder/</span>
+│   ├── <span class="file">voice_guidelines.py</span> <span class="desc">← Build 2: Brand voice source of truth</span>
+│   ├── <span class="file">generate_responses.py</span> <span class="desc">← Build 2: Claude response drafting</span>
+│   ├── <span class="file">build_response_sheets.py</span> <span class="desc">← Build 2: Adds Sheets 5–6 to workbook</span>
+│   ├── <span class="file">record_decision.py</span>  <span class="desc">← Build 2: Approval workflow</span>
+│   └── <span class="file">approval_digest.py</span>  <span class="desc">← Build 2: Digest of pending approvals</span>
+│
+├── <span class="dir new">email_triage/</span>           <span class="desc">← Build 6 (NEW)</span>
+│   ├── <span class="new">suppliers.json</span>        <span class="desc">← Supplier domains + search keywords</span>
+│   ├── <span class="new">gmail_auth.py</span>         <span class="desc">← One-time OAuth setup</span>
+│   ├── <span class="new">fetch_emails.py</span>       <span class="desc">← Gmail API fetcher</span>
+│   ├── <span class="new">categorize_emails.py</span>  <span class="desc">← Claude Haiku categorizer</span>
+│   ├── <span class="new">build_triage_sheet.py</span> <span class="desc">← Excel workbook builder</span>
+│   └── <span class="new">run_email_triage.py</span>   <span class="desc">← Pipeline orchestrator</span>
+│
+├── <span class="dir">prompts/</span>
+│   ├── <span class="file">classify_prompt.txt</span>     <span class="desc">← Build 1: Review classification prompt</span>
+│   ├── <span class="file">response_positive_v1.txt</span> <span class="desc">← Build 2: Positive review response prompt</span>
+│   ├── <span class="file">response_negative_v1.txt</span> <span class="desc">← Build 2: Negative review response prompt</span>
+│   ├── <span class="file">response_mixed_v1.txt</span>   <span class="desc">← Build 2: Mixed review response prompt</span>
+│   └── <span class="new">email_triage_v1.txt</span>     <span class="desc">← Build 6: Email categorization prompt (NEW)</span>
+│
+├── <span class="dir new">docs/</span>                       <span class="desc">← Build 2 (NEW): automation guides</span>
+│   ├── <span class="new">n8n_automation.md</span>     <span class="desc">← n8n approval workflow build guide</span>
+│   └── <span class="new">n8n_workflow.json</span>     <span class="desc">← Importable n8n workflow scaffold</span>
+│
+├── <span class="dir">output/</span>                     <span class="desc">← All generated files live here</span>
+│   ├── <span class="file">raw_reviews.csv</span>         <span class="desc">← Build 1 output</span>
+│   ├── <span class="file">clean_reviews.csv</span>       <span class="desc">← Build 1 output</span>
+│   ├── <span class="file">categorized_reviews.csv</span> <span class="desc">← Build 1 output</span>
+│   ├── <span class="file">response_drafts.csv</span>     <span class="desc">← Build 2 output (pending, standard)</span>
+│   ├── <span class="file">urgent_responses.csv</span>    <span class="desc">← Build 2 output (pending, urgent)</span>
+│   ├── <span class="file">approved_responses.csv</span>  <span class="desc">← Build 2 output (owner-approved)</span>
+│   ├── <span class="file">rejected_responses.csv</span>  <span class="desc">← Build 2 output (owner-rejected)</span>
+│   ├── <span class="file">Rinata_Review_Analysis.xlsx</span> <span class="desc">← Builds 1+2 deliverable</span>
+│   ├── <span class="new">raw_emails.json</span>         <span class="desc">← Build 6 output</span>
+│   ├── <span class="new">email_categories.csv</span>    <span class="desc">← Build 6 output</span>
+│   ├── <span class="new">urgent_emails.csv</span>       <span class="desc">← Build 6 output</span>
+│   └── <span class="new">Rinata_Email_Triage.xlsx</span> <span class="desc">← Build 6 deliverable</span>
+│
+└── <span class="dir">Deliverables/</span>               <span class="desc">← Final outputs for ownership review</span>
+  </div>
+
+  <h3>Build Roadmap</h3>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 1</span>
+    <span class="rm-name">Feedback &amp; Reviews Intelligence System</span>
+    <span class="rm-status" style="color:#1e8449">✓ Complete</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 2</span>
+    <span class="rm-name">Review Response Agent</span>
+    <span class="rm-status" style="color:#1e8449">✓ Complete</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 6</span>
+    <span class="rm-name">Supplier Email Triage Agent</span>
+    <span class="rm-status" style="color:#1a5276">Built — Setup Needed</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 3</span>
+    <span class="rm-name">Weekly P&amp;L Drafting Agent</span>
+    <span class="rm-block">Waiting on QuickBooks login + P&amp;L targets sign-off</span>
+    <span class="rm-status" style="color:#9c4a10">Blocked</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 4</span>
+    <span class="rm-name">Vendor Invoice Reconciliation Agent</span>
+    <span class="rm-block">Waiting on vendor invoice PDFs + master price list</span>
+    <span class="rm-status" style="color:#9c4a10">Blocked</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 5</span>
+    <span class="rm-name">Menu Profitability Analyzer</span>
+    <span class="rm-block">Not yet scoped</span>
+    <span class="rm-status" style="color:#888">Planned</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 7</span>
+    <span class="rm-name">Scheduling Assistant Agent</span>
+    <span class="rm-block">Highest complexity — saved for last</span>
+    <span class="rm-status" style="color:#888">Planned</span>
+  </div>
+  <div class="roadmap-row">
+    <span class="rm-num">Build 8</span>
+    <span class="rm-name">Reservation Pattern Analyzer</span>
+    <span class="rm-block">Not yet scoped</span>
+    <span class="rm-status" style="color:#888">Planned</span>
+  </div>
+
+  <div class="callout callout-tip" style="margin-top: 24px;">
+    <h4>Next Actions to Unblock Builds 3 &amp; 4</h4>
+    <p><strong>Build 3:</strong> Request QuickBooks login from ownership + agree on weekly P&amp;L targets (food cost %, labor %, prime cost %).<br>
+    <strong>Build 4:</strong> Gather the last 4–6 invoices from your top 5 vendors to build the master price list. Vendor invoice PDFs can be forwarded from the restaurant email.</p>
+  </div>
+
+  <div class="footer">
+    <span>Rinata AI Agent Suite — Post-Build Report · All 8 builds documented in Google Drive "Build" folder</span>
+    <span>Confidential · May 2026</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rinata Project — Stage 3 Breakdown</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #2c2c2c; line-height: 1.7; }
+    .cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: white; padding: 80px 60px; }
+    .cover h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+    .cover h2 { font-size: 1.2em; font-weight: 300; opacity: 0.8; margin-bottom: 20px; }
+    .cover .meta { font-size: 0.9em; opacity: 0.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 30px 80px; }
+    h2.section-title { font-size: 1.5em; color: #0f3460; border-left: 5px solid #e94560; padding-left: 14px; margin: 50px 0 18px; }
+    h3 { font-size: 1.1em; color: #1a1a2e; margin: 28px 0 8px; }
+    h4 { font-size: 0.95em; color: #444; margin: 18px 0 6px; font-weight: 600; }
+    p { margin-bottom: 12px; }
+    .card { background: white; border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .card.highlight { border-left: 4px solid #e94560; }
+    .card.concept { border-left: 4px solid #0f3460; }
+    .card.code-card { border-left: 4px solid #2ecc71; }
+    .card.debug { border-left: 4px solid #f39c12; }
+    .card.result { border-left: 4px solid #9b59b6; }
+    code { font-family: 'Consolas', monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.88em; color: #c0392b; }
+    pre { background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 0.88em; line-height: 1.6; margin: 14px 0; }
+    pre .comment { color: #6c7086; }
+    pre .keyword { color: #cba6f7; }
+    pre .string { color: #a6e3a1; }
+    pre .func { color: #89b4fa; }
+    .step-badge { display: inline-block; background: #e94560; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .debug-badge { display: inline-block; background: #f39c12; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .learn-box { background: #eaf4fb; border: 1px solid #aed6f1; border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 0.93em; }
+    .learn-box strong { color: #1a6fa0; }
+    .result-box { background: #f0fff4; border: 1px solid #a9dfbf; border-radius: 6px; padding: 14px 18px; margin: 14px 0; font-size: 0.93em; }
+    .result-box strong { color: #1e8449; }
+    .insight-box { background: #fdf2ff; border: 1px solid #d7aef5; border-radius: 6px; padding: 14px 18px; margin: 14px 0; font-size: 0.93em; }
+    .insight-box strong { color: #7d3c98; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+    th { background: #0f3460; color: white; padding: 10px 14px; text-align: left; }
+    td { padding: 9px 14px; border-bottom: 1px solid #e5e5e5; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.95em; }
+    .checklist li::before { content: "✅ "; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+    .stat { background: white; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .stat .number { font-size: 2.2em; font-weight: 700; color: #0f3460; }
+    .stat .label { font-size: 0.85em; color: #777; margin-top: 4px; }
+    .divider { border: none; border-top: 1px solid #ddd; margin: 40px 0; }
+    .debug-badge2 { display: inline-block; background: #e67e22; color: white; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; }
+    ul { margin-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Rinata Feedback Intelligence System</h1>
+  <h2>Stage 3 — Data Cleaning: Complete Breakdown</h2>
+  <div class="meta">Project: Rinata Restaurant &nbsp;|&nbsp; Date: May 2026 &nbsp;|&nbsp; Stage: 3 of 6</div>
+</div>
+
+<div class="container">
+
+  <!-- RESULTS -->
+  <h2 class="section-title">What We Accomplished</h2>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="number">597</div><div class="label">Rows in, 597 rows out</div></div>
+    <div class="stat"><div class="number">0</div><div class="label">True duplicates found</div></div>
+    <div class="stat"><div class="number">6</div><div class="label">New derived columns added</div></div>
+  </div>
+
+  <div class="card result">
+    <span class="step-badge">Output</span>
+    <p>A clean, enriched CSV at <code>output/clean_reviews.csv</code> — all 597 reviews validated, normalized, and extended with new analysis columns. This file feeds directly into Stage 4 (AI categorization).</p>
+    <div class="result-box">
+      <strong>New columns added by the cleaner:</strong>
+      <table style="margin-top:10px;">
+        <tr><th>Column</th><th>Example</th><th>Purpose</th></tr>
+        <tr><td><code>has_text</code></td><td>True / False</td><td>Flags whether the review has written text or is rating-only</td></tr>
+        <tr><td><code>text_length</code></td><td>342</td><td>Number of characters in the review — useful for filtering very short reviews</td></tr>
+        <tr><td><code>word_count</code></td><td>58</td><td>Number of words — a quick proxy for review depth</td></tr>
+        <tr><td><code>is_positive</code></td><td>True</td><td>True if rating is 4 or 5 stars</td></tr>
+        <tr><td><code>is_negative</code></td><td>False</td><td>True if rating is 1 or 2 stars</td></tr>
+        <tr><td><code>is_neutral</code></td><td>False</td><td>True if rating is exactly 3 stars</td></tr>
+        <tr><td><code>year_month</code></td><td>2026-04</td><td>Calendar month of the review — for trend analysis over time</td></tr>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- WHY CLEAN DATA MATTERS -->
+  <h2 class="section-title">Why Data Cleaning Matters</h2>
+
+  <div class="card concept">
+    <p>Raw data collected from the real world is almost never ready for analysis. It needs to be inspected, standardized, and enriched before you can trust the results. Garbage in, garbage out — AI categorization on dirty data produces unreliable outputs.</p>
+    <p>The cleaning step is where you build <strong>trust in your dataset</strong>. After Stage 3, you can say with confidence:</p>
+    <ul>
+      <li>Every row has a valid rating (1–5)</li>
+      <li>Every row has a valid date and day of week</li>
+      <li>No duplicate reviews are counted twice</li>
+      <li>Text is normalized (no hidden extra spaces or line breaks)</li>
+      <li>Rating-only reviews are clearly flagged and won't confuse the AI</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Industry context:</strong> Data professionals estimate that 60–80% of real-world data work is cleaning and preparation — not analysis. This stage is not glamorous, but it's what separates reliable insights from misleading ones.
+    </div>
+  </div>
+
+
+  <!-- WHAT IS PANDAS -->
+  <h2 class="section-title">What Is pandas?</h2>
+
+  <div class="card concept">
+    <p><strong>pandas</strong> is the most widely used Python library for data analysis. It introduces a data structure called a <strong>DataFrame</strong> — think of it as a spreadsheet inside Python. Each column has a name and a data type, each row is a record, and you can filter, transform, group, and aggregate the data with clean, readable code.</p>
+    <p>Without pandas, you'd use nested Python lists and dictionaries, writing manual loops for every operation. With pandas, operations that would take 20 lines become 1 line.</p>
+
+    <h4>Core pandas concepts used in Stage 3:</h4>
+    <table>
+      <tr><th>Concept</th><th>What it is</th></tr>
+      <tr><td><code>pd.read_csv()</code></td><td>Reads a CSV file into a DataFrame — one function call loads everything</td></tr>
+      <tr><td><code>df["column"]</code></td><td>Selects a single column (called a Series)</td></tr>
+      <tr><td><code>df["column"].str</code></td><td>Accesses string methods on every value in a column at once</td></tr>
+      <tr><td><code>df["column"].dt</code></td><td>Accesses date/time methods on every value in a column at once</td></tr>
+      <tr><td><code>df.duplicated()</code></td><td>Returns a True/False mask — True where rows are duplicates</td></tr>
+      <tr><td><code>df.to_csv()</code></td><td>Saves the DataFrame to a CSV file</td></tr>
+      <tr><td>Boolean indexing</td><td>Filter rows using True/False conditions: <code>df[df["rating"] == 5]</code></td></tr>
+    </table>
+  </div>
+
+
+  <!-- STEP BY STEP BREAKDOWN -->
+  <h2 class="section-title">Step-by-Step Code Breakdown</h2>
+
+  <!-- Step 1 -->
+  <div class="card code-card">
+    <span class="step-badge">Step 1</span>
+    <h3>Fixing Data Types</h3>
+    <pre>df[<span class="string">"rating"</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">"rating"</span>], errors=<span class="string">"coerce"</span>).<span class="func">astype</span>(<span class="string">"Int64"</span>)
+
+df[<span class="string">"has_owner_response"</span>] = df[<span class="string">"has_owner_response"</span>].<span class="func">map</span>(
+    {<span class="string">"True"</span>: <span class="keyword">True</span>, <span class="string">"False"</span>: <span class="keyword">False</span>}
+)</pre>
+    <p>When pandas reads a CSV, it doesn't know what type each column should be — everything starts as text (strings). We need to tell it what each column actually represents:</p>
+    <ul>
+      <li><strong><code>pd.to_numeric(errors="coerce")</code></strong> — converts the rating column from strings like <code>"5"</code> to actual numbers. The <code>errors="coerce"</code> means: if a value can't be converted (e.g. it says "five"), turn it into <code>NaN</code> (Not a Number) instead of crashing.</li>
+      <li><strong><code>.astype("Int64")</code></strong> — converts to integer. We use the capital <code>Int64</code> (not <code>int64</code>) because it can handle <code>NaN</code> values — regular Python integers can't be null.</li>
+      <li><strong><code>.map()</code></strong> — replaces values using a lookup dictionary. The CSV stored <code>True</code>/<code>False</code> as text strings — <code>.map()</code> converts them to real Python booleans.</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Key concept — Data types matter:</strong><br>
+      If rating stays as a string, then <code>rating > 3</code> would compare strings alphabetically ("5" > "3" works, but "10" &lt; "3" because "1" comes before "3"). Converting to a numeric type ensures comparisons work as expected mathematically.
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card code-card">
+    <span class="step-badge">Step 2</span>
+    <h3>Normalizing Review Text</h3>
+    <pre>df[<span class="string">"review_text"</span>] = (
+    df[<span class="string">"review_text"</span>]
+    .<span class="func">fillna</span>(<span class="string">""</span>)
+    .str.<span class="func">strip</span>()
+    .str.<span class="func">replace</span>(<span class="string">r"\s+"</span>, <span class="string">" "</span>, regex=<span class="keyword">True</span>)
+)</pre>
+    <p>This is a <strong>method chain</strong> — multiple operations applied in sequence, each transforming the result of the previous one. Reading left to right:</p>
+    <ul>
+      <li><strong><code>.fillna("")</code></strong> — replaces any <code>NaN</code> (missing) values with an empty string. Prevents crashes when you try to call string methods on <code>NaN</code>.</li>
+      <li><strong><code>.str.strip()</code></strong> — removes leading and trailing whitespace from every review. Some scraped text has invisible spaces at the start or end.</li>
+      <li><strong><code>.str.replace(r"\s+", " ", regex=True)</code></strong> — collapses multiple spaces or newlines into a single space. The <code>\s+</code> is a regex meaning "one or more whitespace characters (space, tab, newline)."</li>
+    </ul>
+    <div class="learn-box">
+      <strong>Why normalize whitespace?</strong><br>
+      The AI in Stage 4 reads the review text. Extra whitespace wastes tokens (and therefore money), and inconsistent formatting can subtly confuse models. A clean, consistent input produces more consistent AI output.
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card code-card">
+    <span class="step-badge">Step 3</span>
+    <h3>Flagging Rating-Only Reviews</h3>
+    <pre>df[<span class="string">"has_text"</span>] = df[<span class="string">"review_text"</span>].str.<span class="func">len</span>() > 0</pre>
+    <p>This single line creates a new boolean column by asking: "is the length of the review text greater than zero?" The result is <code>True</code> for reviews with text, <code>False</code> for rating-only reviews.</p>
+    <p><strong>209 out of 597 reviews (35%) had no written text</strong> — just a star rating. We keep these rows because the rating itself is still useful for aggregate analysis (average score by day, etc.), but we flag them so the AI categorization step in Stage 4 can skip them cleanly.</p>
+    <div class="learn-box">
+      <strong>Design decision — keep vs. delete:</strong><br>
+      A common instinct is to delete rows that don't have text. We chose to keep them and flag them instead. This preserves the integrity of the full dataset for rating-based analysis, while still making it easy to filter to text-only reviews when needed: <code>df[df["has_text"] == True]</code>.
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card code-card">
+    <span class="step-badge">Step 4</span>
+    <h3>Checking for True Duplicates</h3>
+    <pre>text_reviews = df[df[<span class="string">"has_text"</span>]].<span class="func">copy</span>()
+dupes = text_reviews.<span class="func">duplicated</span>(
+    subset=[<span class="string">"review_text"</span>, <span class="string">"rating"</span>],
+    keep=<span class="string">"first"</span>
+)
+true_dupes = dupes.<span class="func">sum</span>()</pre>
+    <p>We only check for duplicates among reviews <em>with text</em> — otherwise every empty review would match every other empty review (since they all have the same text: <code>""</code>). That's why Stage 2's naive duplicate count showed 209 "duplicates" — they were all the rating-only rows.</p>
+    <ul>
+      <li><strong><code>.duplicated(subset=[...])</code></strong> — marks a row as duplicate if the combination of those columns appeared in an earlier row. <code>keep="first"</code> means the first occurrence is kept; subsequent matches are flagged.</li>
+      <li><strong><code>.sum()</code></strong> — counts True values in the boolean series. In Python, <code>True == 1</code> and <code>False == 0</code>, so summing a boolean column gives the count of True values.</li>
+      <li><strong>Result: 0 true duplicates</strong> — all 388 text reviews are unique.</li>
+    </ul>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="card code-card">
+    <span class="step-badge">Step 5</span>
+    <h3>Adding Derived Columns</h3>
+    <pre>df[<span class="string">"text_length"</span>]  = df[<span class="string">"review_text"</span>].str.<span class="func">len</span>()
+df[<span class="string">"word_count"</span>]    = df[<span class="string">"review_text"</span>].str.<span class="func">split</span>().str.<span class="func">len</span>().<span class="func">fillna</span>(0).<span class="func">astype</span>(<span class="func">int</span>)
+df[<span class="string">"is_positive"</span>]   = df[<span class="string">"rating"</span>] >= 4
+df[<span class="string">"is_negative"</span>]   = df[<span class="string">"rating"</span>] <= 2
+df[<span class="string">"is_neutral"</span>]    = df[<span class="string">"rating"</span>] == 3
+df[<span class="string">"date_approx"</span>]   = pd.<span class="func">to_datetime</span>(df[<span class="string">"date_approx"</span>], errors=<span class="string">"coerce"</span>)
+df[<span class="string">"year_month"</span>]    = df[<span class="string">"date_approx"</span>].dt.<span class="func">to_period</span>(<span class="string">"M"</span>).<span class="func">astype</span>(<span class="func">str</span>)</pre>
+
+    <p>Derived columns are computed from existing data. They don't add new raw information, but they make downstream analysis much easier — instead of writing <code>df[df["rating"] >= 4]</code> every time you want positive reviews, you just write <code>df[df["is_positive"]]</code>.</p>
+
+    <h4>Notable patterns:</h4>
+    <ul>
+      <li><strong><code>.str.split().str.len()</code></strong> — a double <code>.str</code> accessor chain. First <code>.split()</code> turns each string into a list of words. Then <code>.str.len()</code> counts the items in each list. Result: word count per review.</li>
+      <li><strong><code>pd.to_datetime()</code></strong> — converts the date string column (<code>"2026-04-20"</code>) into actual Python datetime objects that pandas understands as dates. Without this, you can't use date math or the <code>.dt</code> accessor.</li>
+      <li><strong><code>.dt.to_period("M")</code></strong> — converts each date to a calendar month period (<code>2026-04</code>). The <code>"M"</code> stands for "month." This lets you group and count reviews by calendar month.</li>
+    </ul>
+  </div>
+
+
+  <!-- THE DUPLICATE MYSTERY -->
+  <h2 class="section-title">The Duplicate Mystery — A Debugging Lesson</h2>
+
+  <div class="card debug">
+    <span class="debug-badge">Debugging</span>
+    <h3>Why did the first scan show 209 duplicates?</h3>
+    <p>Before writing the cleaning script, a quick inspection of the raw CSV showed <code>209 duplicate review texts</code>. That sounded alarming — had the scraper collected the same reviews twice?</p>
+    <p>The answer was no. The 209 "duplicates" were all the <strong>rating-only reviews</strong>. Each one had <code>review_text = ""</code> (empty string). Since all empty strings are identical, pandas counted each one as a duplicate of the first empty review.</p>
+    <p>The fix was to run the duplicate check only on rows where <code>has_text == True</code> — excluding empty reviews from the comparison entirely. The result: 0 true duplicates.</p>
+    <div class="learn-box">
+      <strong>Lesson:</strong> Always understand <em>why</em> a number looks suspicious before acting on it. "209 duplicates" initially looked like a scraper bug. One extra query revealed it was a side effect of empty values — not a data collection problem. Investigating before deleting saved 209 valid data points.
+    </div>
+  </div>
+
+
+  <!-- WINDOWS UNICODE BUG -->
+  <div class="card debug">
+    <span class="debug-badge">Debugging</span>
+    <h3>Windows terminal Unicode error — the "★" and "→" crash</h3>
+    <p>The cleaning script crashed twice on <code>print()</code> statements that contained the "→" arrow and "★" star characters. The error was:</p>
+    <pre>UnicodeEncodeError: 'charmap' codec can't encode character '→'</pre>
+    <p>The Windows Command Prompt and PowerShell default to a character encoding called <strong>CP1252</strong> (Windows Western European), which only supports 256 characters — far fewer than Unicode's 143,000+. Characters like "→" and "★" simply don't exist in CP1252.</p>
+    <p><strong>Fix:</strong> Replace Unicode symbols in print statements with ASCII equivalents — <code>-&gt;</code> instead of <code>→</code>, <code>"5 star"</code> instead of <code>"★★★★★"</code>.</p>
+    <div class="learn-box">
+      <strong>Key concept — Character encoding:</strong><br>
+      Computers store text as numbers. A character encoding is the rulebook that says which number maps to which character. ASCII (128 characters) is universal. UTF-8 (covers all of Unicode) is the modern standard. CP1252 is a legacy Windows encoding. Mismatches between what a script tries to print and what the terminal supports cause UnicodeEncodeErrors. Python files and CSV files can be UTF-8, but the <em>terminal display</em> is a separate encoding controlled by the OS.
+    </div>
+  </div>
+
+
+  <!-- DATA INSIGHTS -->
+  <h2 class="section-title">What the Clean Data Tells Us</h2>
+
+  <div class="card">
+    <table>
+      <tr><th>Finding</th><th>Number</th><th>Business implication</th></tr>
+      <tr><td>5-star reviews</td><td>466 (78%)</td><td>Rinata has an exceptionally strong reputation</td></tr>
+      <tr><td>1+2-star reviews</td><td>22 (3.7%)</td><td>Very few serious complaints — each one is worth reading</td></tr>
+      <tr><td>3-star reviews</td><td>25 (4.2%)</td><td>Mixed experiences — often the most informative for improvement</td></tr>
+      <tr><td>Wednesday reviews</td><td>25</td><td>Far below other days — likely shorter hours or closed some weeks</td></tr>
+      <tr><td>Sunday reviews</td><td>121 (highest)</td><td>Busiest day — most reviews correlates with most diners</td></tr>
+      <tr><td>Rating-only reviews</td><td>209 (35%)</td><td>1 in 3 reviewers left no explanation — only a star rating</td></tr>
+    </table>
+    <div class="insight-box">
+      <strong>Interesting pattern:</strong> The Wednesday number (25) versus other weekdays (65–121) is striking enough to flag for management. If Wednesday reviews represent Wednesday diners proportionally, the restaurant may be significantly slower on Wednesdays — which could inform staffing, specials, or promotional decisions.
+    </div>
+  </div>
+
+
+  <!-- CONCEPTS SUMMARY -->
+  <h2 class="section-title">Core Concepts You Learned in Stage 3</h2>
+  <div class="card">
+    <table>
+      <tr><th>Concept</th><th>Simple definition</th></tr>
+      <tr><td>DataFrame</td><td>pandas' core data structure — a spreadsheet inside Python with named columns and typed data</td></tr>
+      <tr><td>Series</td><td>A single column in a DataFrame — a list of values all with the same data type</td></tr>
+      <tr><td>Method chaining</td><td>Applying multiple operations in sequence: <code>.fillna().str.strip().str.replace()</code></td></tr>
+      <tr><td>Data type coercion</td><td>Converting values from one type to another: string "5" to integer 5</td></tr>
+      <tr><td>NaN (Not a Number)</td><td>pandas' representation of a missing value — like an empty cell in Excel</td></tr>
+      <tr><td>Boolean masking</td><td>Using True/False conditions to filter rows: <code>df[df["rating"] >= 4]</code></td></tr>
+      <tr><td>Derived column</td><td>A column computed from existing data — not raw input but calculated output</td></tr>
+      <tr><td>.str accessor</td><td>Applies string methods to every value in a column at once</td></tr>
+      <tr><td>.dt accessor</td><td>Applies date/time methods to every value in a datetime column</td></tr>
+      <tr><td>pd.to_datetime()</td><td>Converts string dates into real datetime objects pandas can do math with</td></tr>
+      <tr><td>Period ("M")</td><td>A calendar month period — used to group dates by month for trend analysis</td></tr>
+      <tr><td>Character encoding</td><td>The rulebook mapping numbers to text characters — ASCII, UTF-8, CP1252</td></tr>
+      <tr><td>Garbage in, garbage out</td><td>The principle that bad input data always produces bad analysis results</td></tr>
+    </table>
+  </div>
+
+
+  <!-- WHAT'S NEXT -->
+  <h2 class="section-title">What Stage 4 Will Cover</h2>
+  <div class="card">
+    <p>Stage 4 is the core intelligence step — using Claude AI to read each review and assign structured labels. The clean CSV from Stage 3 feeds directly into this.</p>
+    <p>For each of the 388 reviews with text, Claude will assign:</p>
+    <ul>
+      <li><strong>Primary category</strong> — Food Quality, Service/Staff, Wait Time, Price/Value, Atmosphere, Order Accuracy (Online), or Miscellaneous</li>
+      <li><strong>Sentiment</strong> — positive, negative, or mixed</li>
+      <li><strong>Urgency</strong> — high, medium, or low (for management prioritization)</li>
+      <li><strong>Confidence</strong> — how certain the AI is about its labels</li>
+      <li><strong>One-line summary</strong> — what the review is actually about</li>
+    </ul>
+    <p style="margin-top:12px;">You will learn: <strong>prompt engineering</strong>, structured JSON output from AI, batch processing with rate limiting, and the two-pass extraction technique.</p>
+  </div>
+
+  <!-- CHECKLIST -->
+  <h2 class="section-title">Stage 3 Completion Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>Raw CSV inspected before writing the cleaning script</li>
+      <li>209 "phantom duplicates" correctly identified as rating-only reviews</li>
+      <li>Rating column converted from string to integer</li>
+      <li>has_owner_response converted from string to boolean</li>
+      <li>Review text stripped and whitespace normalized</li>
+      <li>Rating-only reviews flagged with <code>has_text</code> column (not deleted)</li>
+      <li>True duplicate check run on text-only reviews — 0 found</li>
+      <li>6 derived columns added: has_text, text_length, word_count, is_positive, is_negative, is_neutral, year_month</li>
+      <li>All rows validated — no missing ratings, dates, or days</li>
+      <li>597 clean rows saved to <code>output/clean_reviews.csv</code></li>
+      <li>Windows Unicode encoding bug identified and fixed</li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+  <p style="text-align:center; color:#999; font-size:0.85em;">Rinata Feedback Intelligence Project &nbsp;|&nbsp; Stage 3 of 6 &nbsp;|&nbsp; Generated May 2026</p>
+
+</div>
+</body>
+</html>
