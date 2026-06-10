@@ -1,29 +1,29 @@
-﻿# Greptile Review Findings
+# Greptile Review Findings
 
-> This file is auto-written on every push by the Greptile review workflow.
-> **Do not edit manually.** Review findings here, then approve specific items for an agent to fix.
->
-> Agents: Read this file before starting any coding task. Only act on items where `approved_by_sammi: true`.
+> Auto-written on every PR. Do not edit manually.
+> Agents: only act on findings where `Approved by Sammi: true`.
 
 ---
 
 ## Meta
 
-last_updated:     <!-- ISO timestamp -->
-triggered_by:     <!-- commit SHA -->
-branch:           <!-- branch name -->
-pr_number:        <!-- PR # if applicable, else "n/a" -->
-confidence_score: <!-- X/5 -->
-total_findings:   <!-- N -->
-unaddressed:      <!-- N -->
+last_updated:     2026-06-10T02:13:02+00:00
+triggered_by:     531ba0b6d939
+branch:           1/merge
+pr_number:        n/a
+confidence_score: ?/5
+total_findings:   0
+unaddressed:      0
 
 ---
 
 ## Findings
 
----
+_No unaddressed findings._
 
 ## Approval Log
+
+<!-- Format: - FINDING-XXX approved YYYY-MM-DD — assign to: claude-code | codex | hermes -->
 
 ---
 
